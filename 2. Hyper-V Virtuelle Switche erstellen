@@ -1,6 +1,6 @@
 ## Erstelle die Hyper-V virtuellen Switche
 
-Script: C:\vm\ps-scripts\create-internal-external-switches.ps1
+Skript: C:\vm\ps-scripts\create-internal-external-switches.ps1
 
 Es werden 2 virtuelle Switche erstellt, zusammen mit einem NAT-Adapter für NatSwitch.
 
