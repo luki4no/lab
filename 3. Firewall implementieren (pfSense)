@@ -13,3 +13,144 @@ Es werden folgende Ressourcen vergeben:
 * vHDD: 30GB (dynamisch)
 * Netzwerkadapter 1: ExternalSwitch - angebunden am Heimrouter
 * Netzwerkadapter 2: NatSwitch - Segment 192.168.100.0/24
+
+### Betriebssystem installieren:
+
+pfSense Installer
+
+```pfsense
+1. 'pfsense' VM starten
+2. Enter: [Accept]
+3. Enter: Install Install pfSense
+4. Enter: Auto (ZFS) Guided Root-on-ZFS
+5. Enter: >>> Install Proceed with Installation
+6. Enter: stripe Stripe - No Redundancy
+7. Space: [*] da0 Msft Virtual Disk
+	Enter
+8. <- YES
+	Enter
+9. Hyper-V Window: Media > DVD Drive > Eject pfSense-CE-2....EASE-amd64.iso
+10. Enter: [Reboot]
+
+Reboot
+
+Should VLANs be set up now [y|n]? **n**
+Enter the WAN interface name or 'a' for auto-detection
+(hn01 hn1 or a): **hn0**
+Enter the LAN interface name or 'a' for auto-detection
+(hn1 a or nothing if finished): **hn1**
+
+WAN -> hn0
+LAN -> hn1
+
+Do you want to proceed [y|n]? **y**
+```
+
+
+### DHCP aktivieren und statische LAN-IP festlegen
+
+2) Set interface(s) IP address
+
+```pfsense
+Enter an option: **2**
+
+Available interfaces:
+
+1 - WAN (hn0 - dhcp, dhcp6)
+2 - LAN (hn1 - static)
+
+Enter the number of the interface you with to configure: **2**
+Configure IPv4 address LAN interface via DHCP? **n**
+Enter the new LAN IPv4 address. Press <ENTER> for none:
+> **192.168.100.1**
+Subnet masks are entered as bit counts (as in CIDR notation) in pfSense.
+e.g. 255.255.255.0 = 24
+     255.255.0.0 = 16
+     255.0.0.0 = 8
+
+Enter the new LAN IPv4 subnet bit count (1 to 32):
+> **24**
+
+For a WAN, enter the new LAN IPv4 upstream gateway address.
+For a LAN, press <ENTER> for none:
+> **Enter**
+
+Configure IPv6 address LAN interface via DHCP6? (y/n) **n**
+
+Enter the new LAN IPv6 address. Press <ENTER> for none:
+> **Enter**
+
+Do you want to enable the DHCP server on LAN? (y/n) **y**
+Enter the start address of the IPv4 client address range: 192.168.100.100
+Enter the end address of the IPv4 client address range: 192.168.100.200
+Disabling IPv6 DHCPD
+
+Do you want to revert to HTTP as the webConfigurator protocol? (y/n) **y**
+
+	http://192.168.100.1/
+
+Press <ENTER> to continue. **Enter**
+
+WAN (wan)    -> hn0   -> v4/DHCP4: 192.168.1.20/24
+                         v6/DHCP6: 2a00:...
+LAN (lan)    -> hn1   -> v4: 192.168.100.1/24
+```
+
+
+### webConfigurator Wizard abschliessen
+
+Auf http://192.168.100.1/ zugreifen.
+
+Username: admin
+Password: pfsense
+
+pfSense Setup 
+>> Next
+
+Netgate Global Support is abailable 24/7 
+>> Next
+
+General Information
+Primary DNS Server: 1.1.1.1
+Secondary DNS Server: 1.0.0.1
+>> Next
+
+Time Server Information
+>> Next
+
+RFC1918 Networks
+Block RFC1918 Private Networks: [ ] zulassen
+>> Next
+
+Configure LAN Interface
+>> Next
+
+Set Admin WebGUI Password
+Admin Password: Pa$$w0rd
+Admin Password AGAIN: Pa$$w0rd
+
+Reload configuration
+>> Reload
+
+Finish > Accept > Close
+
+
+### SSH aktivieren 
+
+Auf http://192.168.100.1/ zugreifen.
+
+System 
+> Advanced 
+>> Admin Access 
+>>> Secure Shell 
+>>>> Secure Shell Server 
+>>>>> [X] Enable Secure Shell
+
+Oder in der Konsole:
+
+14) Enable Secure Shell (sshd)
+
+```pfsense
+Enter an option: 14
+SSHD is currently disabled. Would you like to enable? [y|n] **y**
+```
