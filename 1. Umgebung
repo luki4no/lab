@@ -8,7 +8,10 @@ C:\vm\iso-images\ - Betriebssystem-ISOs
 C:\vm\ps-scripts\ - PowerShell Skripte
 C:\vm\webserver\ - Automatisierung: Kickstart, Preseed, AutoInstall Dateien
 
-Skripte in Administrator: Powershell ausführen:
+Optional: Die Ordnerstruktur kann über das Skript 'create-folders.ps1' vorbereitet werden.
 
+Danach Skripte in Administrator: Powershell ausführen:
+
+Beispiel:
 PS > cd C:\vm\ps-scripts
 PS > ./script.ps1
