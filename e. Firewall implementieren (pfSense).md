@@ -1,3 +1,5 @@
+# Firewall implementieren (pfSense)
+
 Skript: C:\vm\ps-scripts\create-pfsense-vm.ps1
 
 Installierte Version: pfSense-CE-2.7.2-RELEASE-amd64.iso
@@ -12,7 +14,7 @@ Es werden folgende Ressourcen vergeben:
 * Netzwerkadapter 1: ExternalSwitch - angebunden am Heimrouter
 * Netzwerkadapter 2: NatSwitch - Segment 192.168.100.0/24
 
-### Betriebssystem installieren:
+## Betriebssystem installieren:
 
 pfSense Installer
 
@@ -45,7 +47,7 @@ Do you want to proceed [y|n]? y
 ```
 
 
-### DHCP aktivieren und statische LAN-IP festlegen
+## DHCP aktivieren und statische LAN-IP festlegen
 
 2) Set interface(s) IP address
 
@@ -95,7 +97,7 @@ LAN (lan)    -> hn1   -> v4: 192.168.100.1/24
 ```
 
 
-### SSH aktivieren 
+## SSH aktivieren 
 
 Von der Konsole aus:
 
@@ -107,7 +109,7 @@ SSHD is currently disabled. Would you like to enable? [y|n] **y**
 ```
 
 
-### Temporär WAN-Zugang auf dem webConfigurator aktivieren
+## Temporär WAN-Zugang auf dem webConfigurator mittels anti-lockout aktivieren
 
 ```pfsense
 8) Shell
@@ -120,9 +122,9 @@ pf disabled
 Der webConfigurator http://192.168.100.1/ kann nun von unserer Windows-Maschine geföffnet werden.
 
 
-### webConfigurator Wizard abschliessen
+## webConfigurator Wizard abschliessen
 
-Auf http://192.168.100.1/ zugreifen.
+Auf http://192.168.100.1/ zugreifen:
 
 Username: admin
 Password: pfsense
@@ -158,7 +160,7 @@ Reload configuration
 Finish > Accept > Close
 
 
-### Optional (riskant): Permanent WAN-Zugriff auf webConfigurator durch Firewall-Regel setzen:
+## Optional (riskant): Permanent WAN-Zugriff auf webConfigurator durch Firewall-Regel setzen:
 
 http://192.168.100.1/
 
@@ -173,7 +175,7 @@ http://192.168.100.1/
 9. Destination Port Range: HTTPS (80) oder HTTP (443), je nach Implementierung.
 10. Description: WAN access to webConfigurator via HTTP
 
-#### HTTPS/HTTP Zugriff sicherstellen:
+### HTTPS/HTTP Zugriff sicherstellen:
 
 1. System
 2. Advanced 
@@ -182,7 +184,7 @@ http://192.168.100.1/
 5. HTTP
 
 
-### WAN-Zugang auf dem webConfigurator wieder schliessen
+## WAN-Zugang auf dem webConfigurator wieder schliessen
 
 ```pfsense
 8) Shell
