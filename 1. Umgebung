@@ -29,3 +29,18 @@ pfSense:
 Restlichen VMs:
       User: lucian
       Password: Pa$$w0rd
+
+### Lokale Namensauflösung
+
+```/etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.100.1    pfsense
+192.168.100.2    onion ids
+192.168.100.10   centos ansible greenbone wazuh
+192.168.100.11   ubuntu
+192.168.100.12   fedora
+192.168.100.13   debian
+192.168.100.14   kali
+```
