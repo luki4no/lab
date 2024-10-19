@@ -1,0 +1,41 @@
+## Erstelle die Hyper-V virtuellen Switche
+
+Script: C:\vm\ps-scripts\create-internal-external-switches.ps1
+
+Es werden 2 virtuelle Switche erstellt, zusammen mit einem NAT-Adapter für NatSwitch.
+
+* Der ExternalSwitch ist eine direkte Brücke zum Heimnetz.
+* Der NatSwitch ist die Alternative zum nativen 'Default Switch'. IP Segment 192.168.100.0/24.
+
+### Das Resultat
+
+PS C:\vm\ps-scripts> Get-VMSwitch
+
+Name                   SwitchType NetAdapterInterfaceDescription
+----                   ---------- ------------------------------
+ExternalSwitch         External   Realtek PCIe GbE Family Controller   <--- Neu
+NatSwitch              Internal   <--- Neu
+Default Switch         Internal
+WSL (Hyper-V firewall) Internal
+
+
+PS C:\vm\ps-scripts> Get-NetNat
+
+
+Name                             : NatNAT
+ExternalIPInterfaceAddressPrefix :
+InternalIPInterfaceAddressPrefix : 192.168.100.0/24  <---
+IcmpQueryTimeout                 : 30
+TcpEstablishedConnectionTimeout  : 1800
+TcpTransientConnectionTimeout    : 120
+TcpFilteringBehavior             : AddressDependentFiltering
+UdpFilteringBehavior             : AddressDependentFiltering
+UdpIdleSessionTimeout            : 120
+UdpInboundRefresh                : False
+Store                            : Local
+Active                           : True
+```
+
+Diese Aktion kan mit folgendem Skript rückgängig gemacht werden:
+
+Script: C:\vm\ps-scripts\remove-internal-external-switches.ps1
