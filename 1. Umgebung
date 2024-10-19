@@ -7,3 +7,8 @@ C:\vm\hdds\ - Virtuelle Festplatten der VMs
 C:\vm\iso-images\ - Betriebssystem-ISOs
 C:\vm\ps-scripts\ - PowerShell Skripte
 C:\vm\webserver\ - Automatisierung: Kickstart, Preseed, AutoInstall Dateien
+
+Skripte in Administrator: Powershell ausführen:
+
+PS > cd C:\vm\ps-scripts
+PS > ./script.ps1
