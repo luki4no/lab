@@ -163,21 +163,21 @@ Finish > Accept > Close
 http://192.168.100.1/
 
 > Firewall 
->> Rules 
->>> WAN
->>>> Action: Pass
->>>> Interface: WAN
->>>> Protocol: TCP
->>>> Source: 'Any' oder eine spezifische IP Adresse. 
->>>> Destination: WAN Address
->>>> Destination Port Range: HTTPS (80) oder HTTP (443), je nach Implementierung.
->>>> Description: WAN access to webConfigurator via HTTP
+> Rules 
+> WAN
+> Action: Pass
+> Interface: WAN
+> Protocol: TCP
+> Source: 'Any' oder eine spezifische IP Adresse. 
+> Destination: WAN Address
+> Destination Port Range: HTTPS (80) oder HTTP (443), je nach Implementierung.
+> Description: WAN access to webConfigurator via HTTP
 
 > System
->> Advanced 
->>> Admin Access
->>>> Protocol
->>>>> HTTP
+> Advanced 
+> Admin Access
+> Protocol
+> HTTP
 
 
 ### WAN-Zugang auf dem webConfigurator wieder schliessen
