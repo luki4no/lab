@@ -1,5 +1,3 @@
-## Firewall installieren (pfSense)
-
 Skript: C:\vm\ps-scripts\create-pfsense-vm.ps1
 
 Installierte Version: pfSense-CE-2.7.2-RELEASE-amd64.iso
@@ -97,6 +95,31 @@ LAN (lan)    -> hn1   -> v4: 192.168.100.1/24
 ```
 
 
+### SSH aktivieren 
+
+Von der Konsole aus:
+
+14) Enable Secure Shell (sshd)
+
+```pfsense
+Enter an option: 14
+SSHD is currently disabled. Would you like to enable? [y|n] **y**
+```
+
+
+### Temporär WAN-Zugang auf dem webConfigurator aktivieren
+
+```pfsense
+8) Shell
+
+[2.7.2-RELEASE][root@pfSense.home.arpa]/root: pfctl -d <--- anti-lockout deaktiviert
+pf disabled
+[2.7.2-RELEASE][root@pfSense.home.arpa]/root: 
+```
+
+Der webConfigurator http://192.168.100.1/ kann nun von unserer Windows-Maschine geföffnet werden.
+
+
 ### webConfigurator Wizard abschliessen
 
 Auf http://192.168.100.1/ zugreifen.
@@ -135,22 +158,36 @@ Reload configuration
 Finish > Accept > Close
 
 
-### SSH aktivieren 
+### Optional (riskant): Permanent WAN-Zugriff auf webConfigurator durch Firewall-Regel setzen:
 
-Auf http://192.168.100.1/ zugreifen.
+http://192.168.100.1/
 
-System 
-> Advanced 
->> Admin Access 
->>> Secure Shell 
->>>> Secure Shell Server 
->>>>> [X] Enable Secure Shell
+> Firewall 
+>> Rules 
+>>> WAN
+>>>> Action: Pass
+>>>> Interface: WAN
+>>>> Protocol: TCP
+>>>> Source: 'Any' oder eine spezifische IP Adresse. 
+>>>> Destination: WAN Address
+>>>> Destination Port Range: HTTPS (80) oder HTTP (443), je nach Implementierung.
+>>>> Description: WAN access to webConfigurator via HTTP
 
-Oder in der Konsole:
+> System
+>> Advanced 
+>>> Admin Access
+>>>> Protocol
+>>>>> HTTP
 
-14) Enable Secure Shell (sshd)
+
+### WAN-Zugang auf dem webConfigurator wieder schliessen
 
 ```pfsense
-Enter an option: 14
-SSHD is currently disabled. Would you like to enable? [y|n] y
+8) Shell
+
+[2.7.2-RELEASE][root@pfSense.home.arpa]/root: pfctl -e <--- anti-lockout zurück aktivieren
+pfctl: pf alreadz enabled
+[2.7.2-RELEASE][root@pfSense.home.arpa]/root: 
 ```
+
+
