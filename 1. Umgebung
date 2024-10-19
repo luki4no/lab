@@ -1,5 +1,7 @@
 ## Umgebung
 
+### Hyper-V VMs
+
 Die kommenden Skripte erstellen folgende Ordner-Struktur:
 
 C:\vm\ - VM-Stammordner
@@ -15,3 +17,10 @@ Danach Skripte in Administrator: Powershell ausführen:
 Beispiel:
 PS > cd C:\vm\ps-scripts
 PS > ./script.ps1
+
+### Anmeldeinformationen
+
+Auf allen VMs werden automatisiert die temporären Login-Informationen eingestellt. Werden nachträglich geändert. 
+
+User: lucian
+Password: Pa$$w0rd
