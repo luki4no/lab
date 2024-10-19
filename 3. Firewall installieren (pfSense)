@@ -1,0 +1,15 @@
+## Firewall installieren (pfSense)
+
+Skript: C:\vm\ps-scripts\create-pfsense-vm.ps1
+
+Installierte Version: pfSense-CE-2.7.2-RELEASE-amd64.iso
+
+Dieses Skript lädt die ISO-Image herunter und speichert diese hier ab C:\vm\iso-images\.
+
+Es werden folgende Ressourcen vergeben:
+
+* vCPU: 2
+* vRAM: 2GB
+* vHDD: 30GB (dynamisch)
+* Netzwerkadapter 1: ExternalSwitch - angebunden am Heimrouter
+* Netzwerkadapter 2: NatSwitch - Segment 192.168.100.0/24
