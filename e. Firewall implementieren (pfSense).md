@@ -176,10 +176,10 @@ http://192.168.100.1/
 #### HTTPS/HTTP Zugriff sicherstellen:
 
 - System
--- Advanced 
---- Admin Access
----- Protocol
------ HTTP
+ - Advanced 
+  - Admin Access
+   - Protocol
+    - HTTP
 
 
 ### WAN-Zugang auf dem webConfigurator wieder schliessen
