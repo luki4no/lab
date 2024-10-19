@@ -173,6 +173,8 @@ http://192.168.100.1/
 9. Destination Port Range: HTTPS (80) oder HTTP (443), je nach Implementierung.
 10. Description: WAN access to webConfigurator via HTTP
 
+#### HTTPS/HTTP Zugriff sicherstellen:
+
 1. System
 2. Advanced 
 3. Admin Access
