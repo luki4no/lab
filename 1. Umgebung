@@ -22,5 +22,10 @@ PS > ./script.ps1
 
 Auf allen VMs werden automatisiert die temporären Login-Informationen eingestellt. Werden nachträglich geändert. 
 
-User: lucian
-Password: Pa$$w0rd
+pfSense: 
+      User: admin
+      Password: Pa$$w0rd
+
+Restlichen VMs:
+      User: lucian
+      Password: Pa$$w0rd
