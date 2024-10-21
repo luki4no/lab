@@ -15,5 +15,6 @@ Diese Dokumentation erklärt Schritt-für-Schritt wie man eine Linux Testumgebun
 
 Bestimmte Bereiche gehen auf Automatisierung ein um die Bereitstellung zu vereinfachen:
 - Powershell Skripte fürs Erstellen von Ordnerstukturen, virtuellen Switche, VM-Profile
+- PXE (Preboot eXecution Environment) als Netzwerk-Boot-Technologie
 - Kickstart-, Preseed- und AutoInstall-Dateien, um Standard-Betriebssystem-ISOs mit benutzerdefinierten Einstellungen anzupassen
 - Ansible Playbooks für eine zentrale Konfigurationsverwaltung
