@@ -1,0 +1,75 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+    variant: ''
+  timezone: Europe/Berlin
+
+  identity:
+    hostname: debian
+    password: "$6$uQdWOwVODMVpxcQd$wk4HqoPD/QJZsTcJrP9BT4jYmCDP2OlXWeYdqu.qJ7bCQwi7brXM4NGsMmHN8jv7J1V9Ueq4bEeTsQNVBoM7N/"
+    username: lucian
+    realname: Lucian
+
+  network:
+    version: 2
+    ethernets:
+      ens192:  # Adjust the interface name as necessary
+        dhcp4: false
+        addresses: [192.168.100.13/24]
+        gateway4: 192.168.100.1
+        nameservers:
+          addresses:
+            - 192.168.100.1
+
+  storage:
+    layout:
+      name: lvm
+    swap:
+      size: 2048
+    config:
+      - type: partition
+        id: boot-partition
+        device: sda
+        size: 1024M
+        wipe: superblock
+        flag: boot
+        filesystem: ext4
+        mountpoint: /boot
+
+      - type: lvm_volgroup
+        id: vg0
+        devices: [sda]
+        
+      - type: lvm_partition
+        id: root
+        volgroup: vg0
+        size: 10000M
+        mountpoint: /
+        filesystem: ext4
+        
+      - type: lvm_partition
+        id: swap
+        volgroup: vg0
+        size: 2048M
+        wipe: superblock
+        filesystem: swap
+
+  packages:
+    - openssh-server
+
+  late-commands:
+    - curtin in-target --target=/ apt-get install -y openssh-server
+
+  user-data:
+    disable_root: false
+    chpasswd:
+      expire: false
+      list:
+        - root:$6$uQdWOwVODMVpxcQd$wk4HqoPD/QJZsTcJrP9BT4jYmCDP2OlXWeYdqu.qJ7bCQwi7brXM4NGsMmHN8jv7J1V9Ueq4bEeTsQNVBoM7N/
+        - lucian:$6$uQdWOwVODMVpxcQd$wk4HqoPD/QJZsTcJrP9BT4jYmCDP2OlXWeYdqu.qJ7bCQwi7brXM4NGsMmHN8jv7J1V9Ueq4bEeTsQNVBoM7N/
+
+  power_state:
+    mode: reboot
