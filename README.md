@@ -2,6 +2,8 @@ Diese Dokumentation erklärt Schritt-für-Schritt wie man eine Linux Testumgebun
 
 ## Voraussetzungen
 
+Folgende Kommandos in PowerShell als Admin ausführen:
+
 Windows mit Hyper-V Features:
 
 ```powershell
