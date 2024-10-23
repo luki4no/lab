@@ -10,7 +10,7 @@ Windows mit Hyper-V Features:
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ```
 
-Optional: Git, um die Repo herunterzuladen:
+Git, um die Repo herunterzuladen:
 
 ```powershell
 winget install --id Git.Git -e --source winget
