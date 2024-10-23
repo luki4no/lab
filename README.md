@@ -2,7 +2,7 @@ Diese Dokumentation erklärt Schritt-für-Schritt wie man eine Linux Testumgebun
 
 ## Voraussetzungen
 
-Windows mit Hyper-V:
+Windows mit Hyper-V Features:
 
 ```powershell
 PS > Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
