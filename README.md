@@ -5,17 +5,17 @@ Diese Dokumentation erklärt Schritt-für-Schritt wie man eine Linux Testumgebun
 Windows mit Hyper-V Features:
 
 ```powershell
-PS > Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ```
 
 Optional: Git, um die Repo herunterzuladen:
 
 ```powershell
-PS > winget install --id Git.Git -e --source winget
+winget install --id Git.Git -e --source winget
 ```
 
 Git Repository-Download:
 
 ```powershell
-PS > git clone https://github.com/luki4no/lab.git 
+git clone https://github.com/luki4no/lab.git 
 ```
