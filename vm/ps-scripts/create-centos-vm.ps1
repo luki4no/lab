@@ -1,8 +1,8 @@
 # CentOS Setup Script with DVD device and ISO mount
 
 # Define directory structure
-$isoDir = "C:\vm\iso-images"
-$diskDir = "C:\vm\hdds"
+$isoDir = "C:\lab\vm\iso-images"
+$diskDir = "C:\lab\vm\hdds"
 New-Item -ItemType Directory -Force -Path $isoDir, $diskDir
 
 # Download CentOS ISO if not already downloaded
