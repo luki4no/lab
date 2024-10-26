@@ -35,3 +35,12 @@ if (-Not $externalSwitch) {
 } else {
     Write-Host "ExternalSwitch already exists."
 }
+
+# Step 5: Create the private switch named "PrivateSwitch"
+$privateSwitch = Get-VMSwitch | Where-Object {$_.Name -eq "PrivateSwitch"}
+if (-Not $privateSwitch) {
+    New-VMSwitch -Name "PrivateSwitch" -SwitchType Private
+    Write-Host "PrivateSwitch has been created."
+} else {
+    Write-Host "PrivateSwitch already exists."
+}
