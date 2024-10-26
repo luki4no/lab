@@ -49,7 +49,7 @@ if (-Not $isoUrls.ContainsKey($selection)) {
 $selectedIso = $isoUrls[$selection]
 
 # Prompt 2: Ask the user where they want to save the ISO image
-$isoDir = Read-Host "Enter the directory where you want to save the ISO (e.g., C:\ISOs)"
+$isoDir = Read-Host "Enter the directory where you want to save the ISO (e.g., C:\lab\iso-images)"
 if (-Not (Test-Path $isoDir)) {
     Write-Host "Directory does not exist. Creating it..."
     New-Item -ItemType Directory -Path $isoDir
