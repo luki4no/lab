@@ -1,8 +1,8 @@
 # pfSense Setup Script with DVD device and ISO mount for Generation 1
 
 # Define directory structure
-$isoDir = "C:\vm\iso-images"
-$diskDir = "C:\vm\hdds"
+$isoDir = "C:\lab\vm\iso-images"
+$diskDir = "C:\lab\vm\hdds"
 New-Item -ItemType Directory -Force -Path $isoDir, $diskDir
 
 # Download pfSense ISO if not already downloaded
