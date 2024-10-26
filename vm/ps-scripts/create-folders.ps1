@@ -1,10 +1,10 @@
 # Define folder paths
 $folders = @(
-    "C:\vm\",
-    "C:\vm\hdds\",
-    "C:\vm\iso-images\",
-    "C:\vm\ps-scripts\",
-    "C:\vm\webserver\"
+    "C:\lab\vm\",
+    "C:\lab\vm\hdds\",
+    "C:\lab\vm\iso-images\",
+    "C:\lab\vm\ps-scripts\",
+    "C:\lab\vm\webserver\"
 )
 
 # Create each folder if it doesn't already exist
