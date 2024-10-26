@@ -18,3 +18,12 @@ if ($externalSwitch) {
 } else {
     Write-Host "ExternalSwitch does not exist."
 }
+
+# Remove PrivateSwitch if it exists
+$privateSwitch = Get-VMSwitch | Where-Object {$_.Name -eq "PrivateSwitch"}
+if ($privateSwitch) {
+    Remove-VMSwitch -Name "PrivateSwitch" -Force
+    Write-Host "PrivateSwitch has been removed."
+} else {
+    Write-Host "PrivateSwitch does not exist."
+}
