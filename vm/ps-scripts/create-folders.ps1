@@ -4,7 +4,7 @@ $folders = @(
     "C:\lab\vm\hdds\",
     "C:\lab\vm\iso-images\",
     "C:\lab\vm\ps-scripts\",
-    "C:\lab\vm\webserver\"
+    "C:\lab\vm\automation\"
 )
 
 # Create each folder if it doesn't already exist
