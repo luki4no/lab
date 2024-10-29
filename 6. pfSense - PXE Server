@@ -39,9 +39,15 @@ Wenn du diese Schritte befolgst, solltest du in der Lage sein, einen PXE-Server 
 
 # Was wir schon haben
 
+[] DHCP-Server auf pfSense aktivieren
+
 * Auf unserem pfsense läuft schon ein DHCP Server die 192.168.100.100 - 192.168.100.200 verteilt
 
 # Was wir noch brauchen
+
+* TFTP Server
+* 
+
 
 # Die Erweiterung pfSense-pkg-tftpd installieren um TFTP zu ermöglichen
 
