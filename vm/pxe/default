@@ -1,0 +1,35 @@
+DEFAULT menu.c32
+PROMPT 0
+TIMEOUT 600
+ONTIMEOUT local
+
+MENU TITLE PXE Boot Menu
+
+LABEL local
+  MENU LABEL Boot from local drive
+  LOCALBOOT 0
+
+LABEL Install CentOS
+  MENU LABEL Install CentOS
+  KERNEL /centos/vmlinuz
+  APPEND initrd=/centos/initrd.img inst.repo=http://192.168.100.2/centos
+
+LABEL Install Fedora
+  MENU LABEL Install Fedora
+  KERNEL /fedora/vmlinuz
+  APPEND initrd=/fedora/initrd.img inst.repo=http://192.168.100.2/fedora
+
+LABEL Install Ubuntu
+  MENU LABEL Install Ubuntu
+  KERNEL /ubuntu/vmlinuz
+  APPEND initrd=/ubuntu/initrd.img autoinstall ds=nocloud-net;s=http://192.168.100.2/ubuntu/
+
+LABEL Install Debian
+  MENU LABEL Install Debian
+  KERNEL /debian/vmlinuz
+  APPEND initrd=/debian/initrd.gz auto url=http://192.168.100.2/debian/preseed.cfg
+
+LABEL Install Kali
+  MENU LABEL Install Kali
+  KERNEL /kali/vmlinuz
+  APPEND initrd=/kali/initrd.img auto url=http://192.168.100.2/kali/preseed.cfg
