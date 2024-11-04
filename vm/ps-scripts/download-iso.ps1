@@ -2,7 +2,7 @@
 $isoOption = @"
 Please select which ISO image you want to download:
 1. RedHat - CentOS (Stream-9) - Full
-2. RedHat - Fedora (40-1.14) - NetInstaller
+2. RedHat - Fedora (41-1.4) - Server
 3. Debian - Debian (12.7.0) - NetInstaller
 4. Debian - Kali (2024.3) - NetInstaller
 5. Debian - Ubuntu (24.04.1) - Live
@@ -19,9 +19,9 @@ $isoUrls = @{
         File = "CentOS-Stream-9-latest-x86_64-dvd1.iso"
     }
     "2" = @{
-        Name = "RedHat - Fedora (40-1.14) - NetInstaller"
-        Url = "https://download.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-40-1.14.iso"
-        File = "Fedora-Everything-netinst-x86_64-40-1.14.iso"
+        Name = "RedHat - Fedora (41-1.4) - Server"
+        Url = "https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-dvd-x86_64-41-1.4.iso"
+        File = "Fedora-Server-dvd-x86_64-41-1.4.iso"
     }
     "3" = @{
         Name = "Debian - Debian (12.7.0) - NetInstaller"
