@@ -5,6 +5,8 @@ $folders = @(
     "C:\lab\vm\iso-images\",
     "C:\lab\vm\ps-scripts\",
     "C:\lab\vm\automation\"
+    "C:\lab\vm\backup\"
+    "C:\lab\vm\pxe\"
 )
 
 # Create each folder if it doesn't already exist
