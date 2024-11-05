@@ -1,14 +1,14 @@
-# Fedora Netinstall Setup Script with DVD device and ISO mount
+# Fedora Server Setup Script with DVD device and ISO mount
 
 # Define directory structure
 $isoDir = "C:\lab\vm\iso-images"
 $diskDir = "C:\lab\vm\hdds"
 New-Item -ItemType Directory -Force -Path $isoDir, $diskDir
 
-# Download Fedora Netinstall ISO if not already downloaded
-$fedoraIsoPath = "$isoDir\Fedora-Everything-netinst-x86_64-40-1.14.iso"
+# Download Fedora Server ISO if not already downloaded
+$fedoraIsoPath = "$isoDir\Fedora-Server-dvd-x86_64-41-1.4.iso"
 if (-Not (Test-Path $fedoraIsoPath)) {
-    $fedoraIsoUrl = "https://download.fedoraproject.org/pub/fedora/linux/releases/40/Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-40-1.14.iso"
+    $fedoraIsoUrl = "https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-dvd-x86_64-41-1.4.iso"
     Invoke-WebRequest -Uri $fedoraIsoUrl -OutFile $fedoraIsoPath
     Write-Host "Fedora Netinstall ISO downloaded."
 } else {
