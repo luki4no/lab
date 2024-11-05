@@ -84,5 +84,5 @@ d-i finish-install/reboot_in_progress note
 
 ### Post-install configuration
 d-i preseed/late_command string \
-    in-target echo "nameserver 192.168.100.1" > /etc/resolv.conf; \
+    in-target echo "nameserver 192.168.100.2" > /etc/resolv.conf; \
     in-target apt-get clean
