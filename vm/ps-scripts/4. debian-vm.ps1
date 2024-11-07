@@ -16,23 +16,23 @@ if (-Not (Test-Path $debianIsoPath)) {
 }
 
 # Create Debian VM with specified parameters
-$debianVhdPath = "$diskDir\debian.vhdx"
-New-VM -Name "debian" -MemoryStartupBytes 4GB -NewVHDPath $debianVhdPath -NewVHDSizeBytes 80GB -Generation 2
-Set-VMProcessor -VMName "debian" -Count 2
-Set-VMMemory -VMName "debian" -DynamicMemoryEnabled $true -MinimumBytes 4GB
+$debianVhdPath = "$diskDir\4. debian.vhdx"
+New-VM -Name "4. debian" -MemoryStartupBytes 4GB -NewVHDPath $debianVhdPath -NewVHDSizeBytes 80GB -Generation 2
+Set-VMProcessor -VMName "4. debian" -Count 2
+Set-VMMemory -VMName "4. debian" -DynamicMemoryEnabled $true -MinimumBytes 4GB
 
 # Find the default network adapter and connect it to the NatSwitch
-Get-VMNetworkAdapter -VMName "debian" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
+Get-VMNetworkAdapter -VMName "4. debian" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
 
 # Add DVD drive to the VM and mount the Debian ISO
-$dvdDrive = Add-VMDvdDrive -VMName "debian" -ControllerNumber 0 -ControllerLocation 1
-Set-VMDvdDrive -VMName "debian" -Path $debianIsoPath
+$dvdDrive = Add-VMDvdDrive -VMName "4. debian" -ControllerNumber 0 -ControllerLocation 1
+Set-VMDvdDrive -VMName "4. debian" -Path $debianIsoPath
 
 # Disable Secure Boot for Debian installation
-Set-VMFirmware -VMName "debian" -EnableSecureBoot Off
+Set-VMFirmware -VMName "4. debian" -EnableSecureBoot Off
 
 # Set the boot order to boot from DVD first
-$dvdDrive = Get-VMDvdDrive -VMName "debian"
-Set-VMFirmware -VMName "debian" -FirstBootDevice $dvdDrive
+$dvdDrive = Get-VMDvdDrive -VMName "4. debian"
+Set-VMFirmware -VMName "4. debian" -FirstBootDevice $dvdDrive
 
 Write-Host "Debian VM has been created with the ISO mounted and the DVD drive attached."
