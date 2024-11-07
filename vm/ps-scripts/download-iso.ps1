@@ -31,7 +31,7 @@ $isoUrls = @{
     "4" = @{
         Name = "Debian - Kali (2024.3) - NetInstaller"
         Url = "https://cdimage.kali.org/kali-2024.3/kali-linux-2024.3-installer-netinst-amd64.iso"
-        File = "kali-linux-2024.2-installer-amd64.iso"
+        File = "kali-linux-2024.3-installer-netinst-amd64.iso"
     }
     "5" = @{
         Name = "Debian - Ubuntu (24.04.1) - Live"
