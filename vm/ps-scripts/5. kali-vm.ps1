@@ -17,9 +17,9 @@ if (-Not (Test-Path $kaliIsoPath)) {
 
 # Create Kali VM with specified parameters
 $kaliVhdPath = "$diskDir\5. kali.vhdx"
-New-VM -Name "5. kali" -MemoryStartupBytes 4GB -NewVHDPath $kaliVhdPath -NewVHDSizeBytes 80GB -Generation 2
+New-VM -Name "5. kali" -MemoryStartupBytes 2GB -NewVHDPath $kaliVhdPath -NewVHDSizeBytes 80GB -Generation 2
 Set-VMProcessor -VMName "5. kali" -Count 2
-Set-VMMemory -VMName "5. kali" -DynamicMemoryEnabled $true -MinimumBytes 4GB
+Set-VMMemory -VMName "5. kali" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
 # Find the default network adapter and connect it to the NatSwitch
 Get-VMNetworkAdapter -VMName "5. kali" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
