@@ -16,23 +16,23 @@ if (-Not (Test-Path $centosIsoPath)) {
 }
 
 # Create CentOS VM with specified parameters
-$centosVhdPath = "$diskDir\centos.vhdx"
-New-VM -Name "centos" -MemoryStartupBytes 8GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 80GB -Generation 2
-Set-VMProcessor -VMName "centos" -Count 2
-Set-VMMemory -VMName "centos" -DynamicMemoryEnabled $true -MinimumBytes 8GB
+$centosVhdPath = "$diskDir\1. centos.vhdx"
+New-VM -Name "1. centos" -MemoryStartupBytes 8GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 80GB -Generation 2
+Set-VMProcessor -VMName "1. centos" -Count 2
+Set-VMMemory -VMName "1. centos" -DynamicMemoryEnabled $true -MinimumBytes 8GB
 
 # Find the default network adapter and connect it to the NatSwitch
-Get-VMNetworkAdapter -VMName "centos" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
+Get-VMNetworkAdapter -VMName "1. centos" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
 
 # Add DVD drive to the VM and mount the ISO
-$dvdDrive = Add-VMDvdDrive -VMName "centos" -ControllerNumber 0 -ControllerLocation 1
-Set-VMDvdDrive -VMName "centos" -Path $centosIsoPath
+$dvdDrive = Add-VMDvdDrive -VMName "1. centos" -ControllerNumber 0 -ControllerLocation 1
+Set-VMDvdDrive -VMName "1. centos" -Path $centosIsoPath
 
 # Disable Secure Boot for CentOS installation
-Set-VMFirmware -VMName "centos" -EnableSecureBoot Off
+Set-VMFirmware -VMName "1. centos" -EnableSecureBoot Off
 
 # Set the boot order to boot from DVD first
-$dvdDrive = Get-VMDvdDrive -VMName "centos"
-Set-VMFirmware -VMName "centos" -FirstBootDevice $dvdDrive
+$dvdDrive = Get-VMDvdDrive -VMName "1. centos"
+Set-VMFirmware -VMName "1. centos" -FirstBootDevice $dvdDrive
 
 Write-Host "CentOS VM has been created with the ISO mounted and the DVD drive attached."
