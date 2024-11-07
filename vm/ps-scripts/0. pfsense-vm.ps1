@@ -16,22 +16,22 @@ if (-Not (Test-Path $centosIsoPath)) {
 }
 
 # Create pfSense VM with specified parameters
-$centosVhdPath = "$diskDir\pfsense.vhdx"
-New-VM -Name "pfsense" -MemoryStartupBytes 2GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 60GB -Generation 1
-Set-VMProcessor -VMName "pfsense" -Count 1
-Set-VMMemory -VMName "pfsense" -DynamicMemoryEnabled $true -MinimumBytes 2GB
+$centosVhdPath = "$diskDir\0. pfsense.vhdx"
+New-VM -Name "0. pfsense" -MemoryStartupBytes 2GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 60GB -Generation 1
+Set-VMProcessor -VMName "0. pfsense" -Count 1
+Set-VMMemory -VMName "0. pfsense" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
 # Remove the default network adapter
-Remove-VMNetworkAdapter -VMName "pfsense" -Name "Network Adapter"
+Remove-VMNetworkAdapter -VMName "0. pfsense" -Name "Network Adapter"
 
 # Add first network adapter and connect it to ExternalSwitch
-Add-VMNetworkAdapter -VMName "pfsense" -SwitchName "ExternalSwitch"
+Add-VMNetworkAdapter -VMName "0. pfsense" -SwitchName "ExternalSwitch"
 
 # Add second network adapter and connect it to NatSwitch
-Add-VMNetworkAdapter -VMName "pfsense" -SwitchName "NatSwitch"
+Add-VMNetworkAdapter -VMName "0. pfsense" -SwitchName "NatSwitch"
 
 # Add DVD drive to the VM and mount the ISO
-Add-VMDvdDrive -VMName "pfsense" -ControllerNumber 0 -ControllerLocation 1 -Path $centosIsoPath
+Add-VMDvdDrive -VMName "0. pfsense" -ControllerNumber 0 -ControllerLocation 1 -Path $centosIsoPath
 
 # Generation 1 VMs boot from the DVD by default if present
 Write-Host "pfSense VM has been created with the ISO mounted and two network adapters attached."
