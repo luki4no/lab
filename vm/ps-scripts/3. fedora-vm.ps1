@@ -17,9 +17,9 @@ if (-Not (Test-Path $fedoraIsoPath)) {
 
 # Create Fedora VM with specified parameters
 $fedoraVhdPath = "$diskDir\3. fedora.vhdx"
-New-VM -Name "3. fedora" -MemoryStartupBytes 4GB -NewVHDPath $fedoraVhdPath -NewVHDSizeBytes 80GB -Generation 2
-Set-VMProcessor -VMName "3. fedora" -Count 2
-Set-VMMemory -VMName "3. fedora" -DynamicMemoryEnabled $true -MinimumBytes 4GB
+New-VM -Name "3. fedora" -MemoryStartupBytes 2GB -NewVHDPath $fedoraVhdPath -NewVHDSizeBytes 80GB -Generation 2
+Set-VMProcessor -VMName "3. fedora" -Count 1
+Set-VMMemory -VMName "3. fedora" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
 # Find the default network adapter and connect it to the NatSwitch
 Get-VMNetworkAdapter -VMName "3. fedora" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
