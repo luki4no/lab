@@ -16,23 +16,23 @@ if (-Not (Test-Path $ubuntuIsoPath)) {
 }
 
 # Create Ubuntu VM with specified parameters
-$ubuntuVhdPath = "$diskDir\ubuntu.vhdx"
-New-VM -Name "ubuntu" -MemoryStartupBytes 4GB -NewVHDPath $ubuntuVhdPath -NewVHDSizeBytes 80GB -Generation 2
-Set-VMProcessor -VMName "ubuntu" -Count 2
-Set-VMMemory -VMName "ubuntu" -DynamicMemoryEnabled $true -MinimumBytes 4GB
+$ubuntuVhdPath = "$diskDir\2. ubuntu.vhdx"
+New-VM -Name "2. ubuntu" -MemoryStartupBytes 4GB -NewVHDPath $ubuntuVhdPath -NewVHDSizeBytes 80GB -Generation 2
+Set-VMProcessor -VMName "2. ubuntu" -Count 2
+Set-VMMemory -VMName "2. ubuntu" -DynamicMemoryEnabled $true -MinimumBytes 4GB
 
 # Find the default network adapter and connect it to the NatSwitch
-Get-VMNetworkAdapter -VMName "ubuntu" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
+Get-VMNetworkAdapter -VMName "2. ubuntu" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
 
 # Add DVD drive to the VM and mount the Ubuntu ISO
-$dvdDrive = Add-VMDvdDrive -VMName "ubuntu" -ControllerNumber 0 -ControllerLocation 1
-Set-VMDvdDrive -VMName "ubuntu" -Path $ubuntuIsoPath
+$dvdDrive = Add-VMDvdDrive -VMName "2. ubuntu" -ControllerNumber 0 -ControllerLocation 1
+Set-VMDvdDrive -VMName "2. ubuntu" -Path $ubuntuIsoPath
 
 # Set the boot order to boot from the DVD drive first
-$dvdDrive = Get-VMDvdDrive -VMName "ubuntu"
-Set-VMFirmware -VMName "ubuntu" -FirstBootDevice $dvdDrive
+$dvdDrive = Get-VMDvdDrive -VMName "2. ubuntu"
+Set-VMFirmware -VMName "2. ubuntu" -FirstBootDevice $dvdDrive
 
 # Disable Secure Boot for Ubuntu installation
-Set-VMFirmware -VMName "ubuntu" -EnableSecureBoot Off
+Set-VMFirmware -VMName "2. ubuntu" -EnableSecureBoot Off
 
 Write-Host "Ubuntu VM has been created with the ISO mounted and the DVD drive attached."
