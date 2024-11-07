@@ -17,7 +17,7 @@ if (-Not (Test-Path $debianIsoPath)) {
 
 # Create Debian VM with specified parameters
 $debianVhdPath = "$diskDir\4. debian.vhdx"
-New-VM -Name "4. debian" -MemoryStartupBytes 2GB -NewVHDPath $debianVhdPath -NewVHDSizeBytes 80GB -Generation 2
+New-VM -Name "4. debian" -MemoryStartupBytes 2GB -NewVHDPath $debianVhdPath -NewVHDSizeBytes 60GB -Generation 2
 Set-VMProcessor -VMName "4. debian" -Count 1
 Set-VMMemory -VMName "4. debian" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
