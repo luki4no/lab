@@ -51,186 +51,106 @@
       copy:
         dest: /var/lib/tftpboot/pxelinux.cfg/default
         content: |
-          DEFAULT menu
+          DEFAULT menu.c32
           PROMPT 0
-          MENU TITLE PXE Boot Menu
           TIMEOUT 600
+          ONTIMEOUT local
 
-          LABEL CentOS
-            KERNEL /var/nfs/iso/centos/vmlinuz
-            APPEND initrd=/var/nfs/iso/centos/initrd.img inst.repo=nfs:192.168.100.10:/var/nfs/iso/centos inst.ks=nfs:192.168.100.10:/var/nfs/iso/automation/ks-centos.cfg
+          MENU TITLE PXE Boot Menu
 
-          LABEL Fedora
-            KERNEL /var/nfs/iso/fedora/vmlinuz
-            APPEND initrd=/var/nfs/iso/fedora/initrd.img inst.repo=nfs:192.168.100.10:/var/nfs/iso/fedora inst.ks=nfs:192.168.100.10:/var/nfs/iso/automation/ks-fedora-gui.cfg
+          LABEL local
+            MENU LABEL Boot from local drive
+            LOCALBOOT 0
 
-          LABEL Ubuntu
-            KERNEL /var/nfs/iso/ubuntu/vmlinuz
-            APPEND initrd=/var/nfs/iso/ubuntu/initrd.img autoinstall ds=nfs:192.168.100.10:/var/nfs/iso/automation/ai-ubuntu.yml
+          LABEL Install CentOS
+            MENU LABEL Install CentOS
+            KERNEL /centos/vmlinuz
+            APPEND initrd=/centos/initrd.img inst.repo=http://192.168.100.2/centos
 
-          LABEL Debian
-            KERNEL /var/nfs/iso/debian/vmlinuz
-            APPEND initrd=/var/nfs/iso/debian/initrd.img auto url=nfs:192.168.100.10:/var/nfs/iso/automation/ps-debian.cfg
+          LABEL Install Fedora
+            MENU LABEL Install Fedora
+            KERNEL /fedora/vmlinuz
+            APPEND initrd=/fedora/initrd.img inst.repo=http://192.168.100.2/fedora
 
-          LABEL Kali
-            KERNEL /var/nfs/iso/kali/vmlinuz
-            APPEND initrd=/var/nfs/iso/kali/initrd.img auto url=nfs:192.168.100.10:/var/nfs/iso/automation/ps-kali-gui.cfg
+          LABEL Install Ubuntu
+            MENU LABEL Install Ubuntu
+            KERNEL /ubuntu/vmlinuz
+            APPEND initrd=/ubuntu/initrd.img autoinstall ds=nocloud-net;s=http://192.168.100.2/ubuntu/
+
+          LABEL Install Debian
+            MENU LABEL Install Debian
+            KERNEL /debian/vmlinuz
+            APPEND initrd=/debian/initrd.gz auto url=http://192.168.100.2/debian/preseed.cfg
+
+          LABEL Install Kali
+            MENU LABEL Install Kali
+            KERNEL /kali/vmlinuz
+            APPEND initrd=/kali/initrd.img auto url=http://192.168.100.2/kali/preseed.cfg
 
     - name: Create grub.cfg configuration file for EFI
       copy:
         dest: /var/lib/tftpboot/efi/boot/grub.cfg
         content: |
-          set timeout=10
-          menuentry 'Install CentOS' {
-            linuxefi /var/nfs/iso/centos/vmlinuz
-            initrdefi /var/nfs/iso/centos/initrd.img
-            inst.repo=nfs:192.168.100.10:/var/nfs/iso/centos inst.ks=nfs:192.168.100.10:/var/nfs/iso/automation/ks-centos.cfg
-          }
-          menuentry 'Install Fedora' {
-            linuxefi /var/nfs/iso/fedora/vmlinuz
-            initrdefi /var/nfs/iso/fedora/initrd.img
-            inst.repo=nfs:192.168.100.10:/var/nfs/iso/fedora inst.ks=nfs:192.168.100.10:/var/nfs/iso/automation/ks-fedora-gui.cfg
-          }
-          menuentry 'Install Ubuntu' {
-            linuxefi /var/nfs/iso/ubuntu/vmlinuz
-            initrdefi /var/nfs/iso/ubuntu/initrd.img
-            autoinstall ds=nfs:192.168.100.10:/var/nfs/iso/automation/ai-ubuntu.yml
-          }
-          menuentry 'Install Debian' {
-            linuxefi /var/nfs/iso/debian/vmlinuz
-            initrdefi /var/nfs/iso/debian/initrd.img
-            auto url=nfs:192.168.100.10:/var/nfs/iso/automation/ps-debian.cfg
-          }
-          menuentry 'Install Kali' {
-            linuxefi /var/nfs/iso/kali/vmlinuz
-            initrdefi /var/nfs/iso/kali/initrd.img
-            auto url=nfs:192.168.100.10:/var/nfs/iso/automation/ps-kali-gui.cfg
+          set default="1"
+
+          function load_video {
+            insmod efi_gop
+            insmod efi_uga
+            insmod video_bochs
+            insmod video_cirrus
+            insmod all_video
           }
 
-    - name: Mount and extract files from CentOS ISO
-      block:
-        - name: Create mount point for CentOS
-          file:
-            path: /mnt/centos
-            state: directory
+          load_video
+          set gfxpayload=keep
+          insmod gzio
+          insmod part_gpt
+          insmod ext2
 
-        - name: Mount CentOS ISO
-          command: mount -o loop /home/lucian/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso /mnt/centos
+          set timeout=60
+          ### END /etc/grub.d/00_header ###
 
-        - name: Copy initrd.img for CentOS
-          copy:
-            src: /mnt/centos/isolinux/initrd.img
-            dest: /var/nfs/iso/centos/initrd.img
-            remote_src: yes
+          search --no-floppy --set=root -l 'CentOS-Stream-9-BaseOS-x86_64'
 
-        - name: Copy vmlinuz for CentOS
-          copy:
-            src: /mnt/centos/isolinux/vmlinuz
-            dest: /var/nfs/iso/centos/vmlinuz
-            remote_src: yes
+          ### BEGIN /etc/grub.d/10_linux ###
+          menuentry 'Install CentOS Stream 9' --class fedora --class gnu-linux --class gnu --class os {
+                  linuxefi /centos/vmlinuz inst.stage2=http://192.168.100.2/pxe/centos inst.ks=http://192.168.100.2/pxe/automation/kickstart-centos-bios-mbr quiet
+                  initrdefi /centos/initrd.img
+          }
+          menuentry 'Test this media & install CentOS Stream 9' --class fedora --class gnu-linux --class gnu --class os {
+                  linuxefi /centos/vmlinuz inst.stage2=http://192.168.100.2/pxe/centos rd.live.check inst.ks=http://192.168.100.2/pxe/automation/kickstart-centos-bios-mbr quiet
+                  initrdefi /centos/initrd.img
+          }
+          submenu 'Troubleshooting -->' {
+                  menuentry 'Install CentOS Stream 9 in text mode' --class fedora --class gnu-linux --class gnu --class os {
+                          linuxefi /centos/vmlinuz inst.stage2=http://192.168.100.2/pxe/centos inst.text inst.ks=http://192.168.100.2/pxe/automation/kickstart-centos-bios-mbr quiet
+                          initrdefi /centos/initrd.img
+                  }
+                  menuentry 'Rescue a CentOS Stream system' --class fedora --class gnu-linux --class gnu --class os {
+                          linuxefi /centos/vmlinuz inst.stage2=http://192.168.100.2/pxe/centos inst.rescue inst.ks=http://192.168.100.2/pxe/automation/kickstart-centos-bios-mbr quiet
+                          initrdefi /centos/initrd.img
+                  }
+          }
 
-        - name: Unmount CentOS ISO
-          command: umount /mnt/centos
-
-    - name: Mount and extract files from Fedora ISO
-      block:
-        - name: Create mount point for Fedora
-          file:
-            path: /mnt/fedora
-            state: directory
-
-        - name: Mount Fedora ISO
-          command: mount -o loop /home/lucian/iso/Fedora-Everything-netinst-x86_64-40-1.14.iso /mnt/fedora
-
-        - name: Copy initrd.img for Fedora
-          copy:
-            src: /mnt/fedora/images/pxeboot/initrd.img
-            dest: /var/nfs/iso/fedora/initrd.img
-            remote_src: yes
-
-        - name: Copy vmlinuz for Fedora
-          copy:
-            src: /mnt/fedora/images/pxeboot/vmlinuz
-            dest: /var/nfs/iso/fedora/vmlinuz
-            remote_src: yes
-
-        - name: Unmount Fedora ISO
-          command: umount /mnt/fedora
-
-    - name: Mount and extract files from Ubuntu ISO
-      block:
-        - name: Create mount point for Ubuntu
-          file:
-            path: /mnt/ubuntu
-            state: directory
-
-        - name: Mount Ubuntu ISO
-          command: mount -o loop /home/lucian/iso/ubuntu-24.04.1-live-server-amd64.iso /mnt/ubuntu
-
-        - name: Copy initrd.img for Ubuntu
-          copy:
-            src: /mnt/ubuntu/casper/initrd
-            dest: /var/nfs/iso/ubuntu/initrd.img
-            remote_src: yes
-
-        - name: Copy vmlinuz for Ubuntu
-          copy:
-            src: /mnt/ubuntu/casper/vmlinuz
-            dest: /var/nfs/iso/ubuntu/vmlinuz
-            remote_src: yes
-
-        - name: Unmount Ubuntu ISO
-          command: umount /mnt/ubuntu
-
-    - name: Mount and extract files from Debian ISO
-      block:
-        - name: Create mount point for Debian
-          file:
-            path: /mnt/debian
-            state: directory
-
-        - name: Mount Debian ISO
-          command: mount -o loop /home/lucian/iso/debian-12.7.0-amd64-netinst.iso /mnt/debian
-
-        - name: Copy initrd.img for Debian
-          copy:
-            src: /mnt/debian/install.amd/initrd.gz
-            dest: /var/nfs/iso/debian/initrd.img
-            remote_src: yes
-
-        - name: Copy vmlinuz for Debian
-          copy:
-            src: /mnt/debian/install.amd/vmlinuz
-            dest: /var/nfs/iso/debian/vmlinuz
-            remote_src: yes
-
-        - name: Unmount Debian ISO
-          command: umount /mnt/debian
-
-    - name: Mount and extract files from Kali ISO
-      block:
-        - name: Create mount point for Kali
-          file:
-            path: /mnt/kali
-            state: directory
-
-        - name: Mount Kali ISO
-          command: mount -o loop /home/lucian/iso/kali-linux-2024.3-installer-netinst-amd64.iso /mnt/kali
-
-        - name: Copy initrd.img for Kali
-          copy:
-            src: /mnt/kali/install.amd/initrd.gz
-            dest: /var/nfs/iso/kali/initrd.img
-            remote_src: yes
-
-        - name: Copy vmlinuz for Kali
-          copy:
-            src: /mnt/kali/install.amd/vmlinuz
-            dest: /var/nfs/iso/kali/vmlinuz
-            remote_src: yes
-
-        - name: Unmount Kali ISO
-          command: umount /mnt/kali
+          ### Fedora Menu Entries ###
+          menuentry 'Install Fedora' --class fedora --class gnu-linux --class gnu --class os {
+                  linuxefi /fedora/vmlinuz inst.stage2=http://192.168.100.2/pxe/fedora inst.ks=http://192.168.100.2/pxe/automation/kickstart-fedora-server-efi-gpt quiet
+                  initrdefi /fedora/initrd.img
+          }
+          menuentry 'Test this media & install Fedora' --class fedora --class gnu-linux --class gnu --class os {
+                  linuxefi /fedora/vmlinuz inst.stage2=http://192.168.100.2/pxe/fedora rd.live.check inst.ks=http://192.168.100.2/pxe/automation/kickstart-fedora-server-efi-gpt quiet
+                  initrdefi /fedora/initrd.img
+          }
+          submenu 'Fedora Troubleshooting -->' {
+                  menuentry 'Install Fedora in text mode' --class fedora --class gnu-linux --class gnu --class os {
+                          linuxefi /fedora/vmlinuz inst.stage2=http://192.168.100.2/pxe/fedora inst.text inst.ks=http://192.168.100.2/pxe/automation/kickstart-fedora-server-efi-gpt quiet
+                          initrdefi /fedora/initrd.img
+                  }
+                  menuentry 'Rescue a Fedora system' --class fedora --class gnu-linux --class gnu --class os {
+                          linuxefi /fedora/vmlinuz inst.stage2=http://192.168.100.2/pxe/fedora inst.rescue inst.ks=http://192.168.100.2/pxe/automation/kickstart-fedora-server-efi-gpt quiet
+                          initrdefi /fedora/initrd.img
+                  }
+          }
 
     - name: Configure NFS exports
       copy:
@@ -272,23 +192,6 @@
           }
       notify: Restart dhcpd
 
-    - name: Configure DHCP interface
-      copy:
-        dest: /etc/sysconfig/dhcpd
-        content: |
-          DHCPD_INTERFACE="eth0"  # Replace 'eth0' with the correct interface name
-      notify: Restart dhcpd
-
-    - name: Verify DHCP configuration syntax
-      command: dhcpd -t -cf /etc/dhcp/dhcpd.conf
-      register: dhcpd_config_check
-      ignore_errors: true
-
-    - name: Fail if DHCP configuration is invalid
-      fail:
-        msg: "DHCP configuration file is invalid. Check /etc/dhcp/dhcpd.conf for errors."
-      when: dhcpd_config_check.rc != 0
-
     - name: Enable and start DHCP and TFTP services
       service:
         name: "{{ item }}"
@@ -297,24 +200,6 @@
       loop:
         - dhcpd
         - tftp
-      notify: Reload firewalld
-
-    - name: Enable and start NFS service
-      service:
-        name: nfs-server
-        state: started
-        enabled: true
-      notify: Reload firewalld
-
-    - name: Configure firewall
-      firewalld:
-        service: "{{ item }}"
-        permanent: true
-        state: enabled
-      loop:
-        - dhcp
-        - tftp
-        - nfs
       notify: Reload firewalld
 
   handlers:
