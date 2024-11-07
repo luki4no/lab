@@ -17,9 +17,9 @@ if (-Not (Test-Path $ubuntuIsoPath)) {
 
 # Create Ubuntu VM with specified parameters
 $ubuntuVhdPath = "$diskDir\2. ubuntu.vhdx"
-New-VM -Name "2. ubuntu" -MemoryStartupBytes 4GB -NewVHDPath $ubuntuVhdPath -NewVHDSizeBytes 80GB -Generation 2
+New-VM -Name "2. ubuntu" -MemoryStartupBytes 2GB -NewVHDPath $ubuntuVhdPath -NewVHDSizeBytes 80GB -Generation 2
 Set-VMProcessor -VMName "2. ubuntu" -Count 2
-Set-VMMemory -VMName "2. ubuntu" -DynamicMemoryEnabled $true -MinimumBytes 4GB
+Set-VMMemory -VMName "2. ubuntu" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
 # Find the default network adapter and connect it to the NatSwitch
 Get-VMNetworkAdapter -VMName "2. ubuntu" | Connect-VMNetworkAdapter -SwitchName "NatSwitch"
