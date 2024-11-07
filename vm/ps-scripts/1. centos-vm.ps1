@@ -17,7 +17,7 @@ if (-Not (Test-Path $centosIsoPath)) {
 
 # Create CentOS VM with specified parameters
 $centosVhdPath = "$diskDir\1. centos.vhdx"
-New-VM -Name "1. centos" -MemoryStartupBytes 4GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 80GB -Generation 2
+New-VM -Name "1. centos" -MemoryStartupBytes 4GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 60GB -Generation 2
 Set-VMProcessor -VMName "1. centos" -Count 2
 Set-VMMemory -VMName "1. centos" -DynamicMemoryEnabled $true -MinimumBytes 4GB
 
