@@ -18,7 +18,7 @@ if (-Not (Test-Path $centosIsoPath)) {
 # Create pfSense VM with specified parameters
 $centosVhdPath = "$diskDir\pfsense.vhdx"
 New-VM -Name "pfsense" -MemoryStartupBytes 2GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 60GB -Generation 1
-Set-VMProcessor -VMName "pfsense" -Count 2
+Set-VMProcessor -VMName "pfsense" -Count 1
 Set-VMMemory -VMName "pfsense" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
 # Remove the default network adapter
