@@ -17,7 +17,7 @@ if (-Not (Test-Path $kaliIsoPath)) {
 
 # Create Kali VM with specified parameters
 $kaliVhdPath = "$diskDir\5. kali.vhdx"
-New-VM -Name "5. kali" -MemoryStartupBytes 2GB -NewVHDPath $kaliVhdPath -NewVHDSizeBytes 80GB -Generation 2
+New-VM -Name "5. kali" -MemoryStartupBytes 2GB -NewVHDPath $kaliVhdPath -NewVHDSizeBytes 60GB -Generation 2
 Set-VMProcessor -VMName "5. kali" -Count 2
 Set-VMMemory -VMName "5. kali" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
