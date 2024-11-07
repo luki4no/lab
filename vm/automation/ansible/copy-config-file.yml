@@ -1,0 +1,12 @@
+---
+- name: Copy custom configuration file
+  hosts: clients
+  become: yes
+  tasks:
+    - name: Copy /etc/myapp.conf to all hosts
+      copy:
+        src: /home/user/myapp.conf
+        dest: /etc/myapp.conf
+        owner: root
+        group: root
+        mode: '0644'

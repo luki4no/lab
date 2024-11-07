@@ -1,0 +1,37 @@
+---
+- name: Populate /etc/ansible/hosts with firewall and clients
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Add initial blank line
+      lineinfile:
+        path: /etc/ansible/hosts
+        line: ""
+        state: present
+        insertbefore: BOF
+
+    - name: Add firewall group and pfSense host entry with spacing
+      lineinfile:
+        path: /etc/ansible/hosts
+        line: "{{ item }}"
+        state: present
+      loop:
+        - ""
+        - "[firewall]"
+        - "pfsense         ansible_host=192.168.100.2 ansible_user=admin"
+        - ""
+
+    - name: Add clients group and hosts entries with spacing
+      lineinfile:
+        path: /etc/ansible/hosts
+        line: "{{ item }}"
+        state: present
+      loop:
+        - ""
+        - "[clients]"
+        - "centos          ansible_host=192.168.100.10 ansible_user=lucian"
+        - "ubuntu          ansible_host=192.168.100.11 ansible_user=lucian"
+        - "fedora          ansible_host=192.168.100.12 ansible_user=lucian"
+        - "debian          ansible_host=192.168.100.13 ansible_user=lucian"
+        - "kali            ansible_host=192.168.100.14 ansible_user=lucian"
+        - ""

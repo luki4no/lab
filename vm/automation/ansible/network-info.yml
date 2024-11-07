@@ -1,0 +1,28 @@
+---
+- name: Gather network settings
+  hosts: clients
+  become: yes
+  tasks:
+    - name: Gather IP address information
+      command: ip addr show
+      register: ip_info
+
+    - name: Display IP address information
+      debug:
+        var: ip_info.stdout_lines
+
+    - name: Gather routing table information
+      command: ip route show
+      register: route_info
+
+    - name: Display routing table information
+      debug:
+        var: route_info.stdout_lines
+
+    - name: Gather DNS information
+      command: cat /etc/resolv.conf
+      register: dns_info
+
+    - name: Display DNS information
+      debug:
+        var: dns_info.stdout_lines

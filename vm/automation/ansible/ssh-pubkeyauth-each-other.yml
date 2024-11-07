@@ -1,0 +1,48 @@
+---
+- name: Configure SSH key-based authentication for all hosts
+  hosts: clients
+  become: yes
+  tasks:
+    - name: Ensure the SSH directory exists
+      file:
+        path: /home/lucian/.ssh
+        state: directory
+        mode: '0700'
+        owner: lucian
+        group: lucian
+
+    - name: Generate a 4096-bit RSA key pair (if not already created)
+      command: ssh-keygen -t rsa -b 4096 -f /home/lucian/.ssh/id_rsa -C "lab" -N ''
+      args:
+        creates: /home/lucian/.ssh/id_rsa
+      become_user: lucian
+
+    - name: Read the public key
+      slurp:
+        src: /home/lucian/.ssh/id_rsa.pub
+      register: pubkey
+
+    - name: Ensure the public key is present in authorized_keys
+      lineinfile:
+        path: /home/lucian/.ssh/authorized_keys
+        line: "{{ pubkey['content'] | b64decode }}"
+        state: present
+        create: yes
+        mode: '0600'
+        owner: lucian
+        group: lucian
+
+    - name: Share SSH public key with other hosts
+      authorized_key:
+        user: lucian
+        key: "{{ pubkey['content'] | b64decode }}"
+      delegate_to: "{{ item }}"
+      loop: "{{ groups['clients'] }}"
+      when: inventory_hostname != item
+
+    - name: Set permissions on authorized_keys file
+      file:
+        path: /home/lucian/.ssh/authorized_keys
+        owner: lucian
+        group: lucian
+        mode: '0600'

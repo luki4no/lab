@@ -1,0 +1,58 @@
+---
+- name: Harden SSH settings
+  hosts: clients
+  become: yes
+  tasks:
+    - name: Disable root login and enable key-based authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: 'PermitRootLogin no'
+      notify:
+        - Restart SSH
+
+    - name: Ensure PubkeyAuthentication is enabled
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PubkeyAuthentication yes'
+        line: 'PubkeyAuthentication yes'
+      notify:
+        - Restart SSH
+
+    - name: Disable password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PasswordAuthentication yes'
+        line: 'PasswordAuthentication no'
+      notify:
+        - Restart SSH
+
+    - name: Set SSH protocol to version 2
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#Protocol'
+        line: 'Protocol 2'
+      notify:
+        - Restart SSH
+
+    - name: Disable empty passwords
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PermitEmptyPasswords'
+        line: 'PermitEmptyPasswords no'
+      notify:
+        - Restart SSH
+
+    - name: Limit SSH access to specific users
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#AllowUsers'
+        line: 'AllowUsers your_username'  # Ersetzen Sie 'your_username' durch den gewünschten Benutzernamen
+      notify:
+        - Restart SSH
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: sshd
+        state: restarted

@@ -1,0 +1,12 @@
+---
+- name: Set sudo timeout to 1 hour on all hosts
+  hosts: clients
+  become: yes
+  tasks:
+    - name: Ensure sudoers file has timestamp_timeout set to 60 minutes
+      lineinfile:
+        path: /etc/sudoers
+        regexp: '^Defaults\s+timestamp_timeout='
+        line: 'Defaults timestamp_timeout=60'
+        state: present
+        validate: '/usr/sbin/visudo -cf %s'

@@ -1,0 +1,17 @@
+---
+- name: Create a new user with sudo privileges
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add devuser to the system
+      user:
+        name: devuser
+        state: present
+        shell: /bin/bash
+        create_home: yes  # Sicherstellt, dass das Home-Verzeichnis erstellt wird
+
+    - name: Add devuser to the sudo group
+      user:
+        name: devuser
+        groups: sudo
+        append: yes

@@ -1,0 +1,10 @@
+---
+- name: Ensure SSH service is running
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure sshd is running and enabled
+      service:
+        name: sshd
+        state: started
+        enabled: yes
