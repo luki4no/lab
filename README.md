@@ -64,7 +64,9 @@ Der Ordner 'C:\lab' wird erstellt. In diesem Ordner wird die Git Repo herunterge
 Die VM-bezogenen Dateien werden von jetzt an hier platziert.
 
 Struktur anschauen:
-
+```powershell
+tree /F
+```
 ```plaintext
 PS C:\lab> tree /F
 Folder PATH listing for volume Windows
