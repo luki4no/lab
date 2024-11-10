@@ -1,0 +1,73 @@
+# System language
+lang en_US.UTF-8
+
+# Keyboard layout
+keyboard us
+
+# Timezone setup
+timezone Europe/Berlin --utc
+
+# Root password
+rootpw --plaintext Pa$$w0rd
+
+# Add user 'lucian' with admin privileges and set the password
+user --name=lucian --password=Pa$$w0rd --groups=wheel --plaintext
+
+# Set hostname
+network --hostname=centos
+
+# Network configuration with static IP for eth0
+network --bootproto=static --device=eth0 --ip=192.168.100.10 --netmask=255.255.255.0 --gateway=192.168.100.2 --nameserver=192.168.100.2 --onboot=yes
+
+# System bootloader configuration
+bootloader --location=mbr --boot-drive=sda --append="console=ttyS0,115200n8"
+
+# Clear the Master Boot Record
+zerombr
+
+# Partition clearing information and setup
+clearpart --all --initlabel
+
+# Create an EFI System Partition (required for UEFI)
+part /boot/efi --fstype="efi" --size=600
+
+# Create a /boot partition (outside of LVM) with xfs
+part /boot --fstype="xfs" --size=1024
+
+# Create the LVM physical volume
+part pv.01 --fstype="lvmpv" --size=1 --grow
+
+# Create the volume group
+volgroup VolGroup --pesize=4096 pv.01
+
+# Create root partition and swap inside LVM with xfs for root
+logvol / --fstype="xfs" --name=root --vgname=VolGroup --size=10240 --grow
+logvol swap --name=swap --vgname=VolGroup --size=2048
+
+# Ensure root partition is mounted with defaults in /etc/fstab
+%post
+sed -i 's|\( / xfs \)defaults|\1defaults,rw|' /etc/fstab
+%end
+
+# Packages section (minimal install for debugging purposes)
+%packages
+@core
+%end
+
+# Text mode installation
+text
+
+# Skip unnecessary prompts
+skipx
+
+# Disable first boot setup wizard
+firstboot --disable
+
+# Disable the initial-setup service
+services --disabled=initial-setup
+
+# Use the %post section to force a system poweroff
+%post --nochroot
+echo "Powering off the system after installation..."
+/sbin/poweroff
+%end
