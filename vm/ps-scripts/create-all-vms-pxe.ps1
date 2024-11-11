@@ -5,9 +5,8 @@ param (
     [string]$scriptDir = "C:\lab\vm\ps-scripts"
 )
 
-# Define an array of script names
+# Define an array of script names, excluding pfsense-vm-pxe.ps1
 $scripts = @(
-    "pfsense-vm-pxe.ps1",
     "centos-vm-pxe.ps1",
     "ubuntu-vm-pxe.ps1",
     "fedora-vm-pxe.ps1",
