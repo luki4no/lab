@@ -8,10 +8,11 @@ echo "3. RedHat - Fedora (41-1.4) - Server"
 echo "4. Debian - Debian (12.8.0) - NetInstaller"
 echo "5. Debian - Kali (2024.3) - NetInstaller"
 echo "6. >>> Download All VMs <<<"
+echo "7. Exit"
 echo
 
 # Prompt the user for a choice
-read -p "Enter the number of your choice (1-6): " selection
+read -p "Enter the number of your choice (1-7): " selection
 
 # Define ISO details as individual variables
 iso_name_1="RedHat - CentOS (Stream-9) - Full"
@@ -84,6 +85,10 @@ case "$selection" in
         download_iso "$iso_name_4" "$iso_url_4" "$iso_file_4"
         download_iso "$iso_name_5" "$iso_url_5" "$iso_file_5"
         echo "All ISOs downloaded."
+        ;;
+    7)
+        echo "Exiting script."
+        exit 0
         ;;
     *)
         echo "Invalid selection. Exiting..."
