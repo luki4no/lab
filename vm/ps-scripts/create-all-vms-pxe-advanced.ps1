@@ -1,75 +1,81 @@
-# PowerShell Script to Execute VM Setup Scripts with Enhanced Error Handling, Logging, and Best Practices
+Please choose an option:
+1. centos-vm-pxe.ps1
+2. ubuntu-vm-pxe.ps1
+3. fedora-vm-pxe.ps1
+4. debian-vm-pxe.ps1
+5. kali-vm-pxe.ps1
+6. Install All VMs
+7. Exit
 
-# Parameterize the path to the directory containing the VM scripts
-param (
-    [string]$scriptDir = "C:\lab\vm\ps-scripts"
-)
+Enter the number of your choice: 1
+Starting centos-vm-pxe.ps1...
+[2024-11-12 10:00:00] Starting centos-vm-pxe.ps1...
+centos-vm-pxe.ps1 completed successfully.
+[2024-11-12 10:01:00] centos-vm-pxe.ps1 completed successfully.
 
-# Define an array of script names, excluding pfsense-vm-pxe.ps1
-$scripts = @(
-    "centos-vm-pxe.ps1",
-    "ubuntu-vm-pxe.ps1",
-    "fedora-vm-pxe.ps1",
-    "debian-vm-pxe.ps1",
-    "kali-vm-pxe.ps1"
-)
+Please choose an option:
+1. centos-vm-pxe.ps1
+2. ubuntu-vm-pxe.ps1
+3. fedora-vm-pxe.ps1
+4. debian-vm-pxe.ps1
+5. kali-vm-pxe.ps1
+6. Install All VMs
+7. Exit
 
-# Initialize logging and error tracking
-$logFile = Join-Path -Path $scriptDir -ChildPath "orchestration_log.txt"
-$errors = @{}
+Enter the number of your choice: 3
+Starting fedora-vm-pxe.ps1...
+[2024-11-12 10:02:00] Starting fedora-vm-pxe.ps1...
+fedora-vm-pxe.ps1 completed successfully.
+[2024-11-12 10:03:00] fedora-vm-pxe.ps1 completed successfully.
 
-# Function to execute a script and log the outcome
-function Execute-Script {
-    param (
-        [string]$scriptPath
-    )
+Please choose an option:
+1. centos-vm-pxe.ps1
+2. ubuntu-vm-pxe.ps1
+3. fedora-vm-pxe.ps1
+4. debian-vm-pxe.ps1
+5. kali-vm-pxe.ps1
+6. Install All VMs
+7. Exit
 
-    try {
-        $scriptName = Split-Path -Path $scriptPath -Leaf
-        Write-Host "Starting $scriptName..."
-        Write-Output "[$(Get-Date)] Starting $scriptName..." | Out-File -FilePath $logFile -Append
+Enter the number of your choice: 6
+Executing all VM creation scripts...
+[2024-11-12 10:05:00] Starting VM creation scripts.
+Starting centos-vm-pxe.ps1...
+[2024-11-12 10:05:05] Starting centos-vm-pxe.ps1...
+centos-vm-pxe.ps1 completed successfully.
+[2024-11-12 10:06:00] centos-vm-pxe.ps1 completed successfully.
 
-        # Execute the script
-        & $scriptPath -ErrorAction Stop
+Starting ubuntu-vm-pxe.ps1...
+[2024-11-12 10:06:05] Starting ubuntu-vm-pxe.ps1...
+ubuntu-vm-pxe.ps1 completed successfully.
+[2024-11-12 10:07:00] ubuntu-vm-pxe.ps1 completed successfully.
 
-        Write-Host "$scriptName completed successfully."
-        Write-Output "[$(Get-Date)] $scriptName completed successfully." | Out-File -FilePath $logFile -Append
-    }
-    catch {
-        Write-Host "Error in $scriptName: $_"
-        Write-Output "[$(Get-Date)] Error in $scriptName: $_" | Out-File -FilePath $logFile -Append
+Starting fedora-vm-pxe.ps1...
+[2024-11-12 10:07:05] Starting fedora-vm-pxe.ps1...
+fedora-vm-pxe.ps1 completed successfully.
+[2024-11-12 10:08:00] fedora-vm-pxe.ps1 completed successfully.
 
-        # Add to error tracking
-        $errors[$scriptName] = $_
-    }
-}
+Starting debian-vm-pxe.ps1...
+[2024-11-12 10:08:05] Starting debian-vm-pxe.ps1...
+debian-vm-pxe.ps1 completed successfully.
+[2024-11-12 10:09:00] debian-vm-pxe.ps1 completed successfully.
 
-# Main script execution loop
-Write-Host "Executing all VM creation scripts..."
-Write-Output "[$(Get-Date)] Starting VM creation scripts." | Out-File -FilePath $logFile -Append
+Starting kali-vm-pxe.ps1...
+[2024-11-12 10:09:05] Starting kali-vm-pxe.ps1...
+kali-vm-pxe.ps1 completed successfully.
+[2024-11-12 10:10:00] kali-vm-pxe.ps1 completed successfully.
 
-foreach ($script in $scripts) {
-    $scriptPath = Join-Path -Path $scriptDir -ChildPath $script
-    if (Test-Path $scriptPath) {
-        Execute-Script -scriptPath $scriptPath
-    } else {
-        Write-Host "Script $script does not exist in $scriptDir."
-        Write-Output "[$(Get-Date)] Script $script does not exist in $scriptDir." | Out-File -FilePath $logFile -Append
-        $errors[$script] = "Script not found"
-    }
-}
+All VM creation scripts have been executed.
+[2024-11-12 10:10:00] All VM creation scripts have been executed.
 
-# Summary of execution
-Write-Host "All VM creation scripts have been executed."
-Write-Output "[$(Get-Date)] All VM creation scripts have been executed." | Out-File -FilePath $logFile -Append
+Please choose an option:
+1. centos-vm-pxe.ps1
+2. ubuntu-vm-pxe.ps1
+3. fedora-vm-pxe.ps1
+4. debian-vm-pxe.ps1
+5. kali-vm-pxe.ps1
+6. Install All VMs
+7. Exit
 
-if ($errors.Count -gt 0) {
-    Write-Host "Some scripts encountered errors:"
-    foreach ($key in $errors.Keys) {
-        Write-Host "$key: $($errors[$key])"
-        Write-Output "[$(Get-Date)] $key: $($errors[$key])" | Out-File -FilePath $logFile -Append
-    }
-} else {
-    Write-Host "All scripts executed successfully."
-    Write-Output "[$(Get-Date)] All scripts executed successfully." | Out-File -FilePath $logFile -Append
-}
+Enter the number of your choice: 7
+Exiting script.
