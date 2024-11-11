@@ -12,11 +12,11 @@ $scripts = @(
 
 # Descriptive names for each option
 $descriptions = @(
-    "RedHat - CentOS Stream 9",
-    "Debian - Ubuntu Server 24.04.1",
-    "RedHat - Fedora Server 41-1.4",
-    "Debian - Debian 12.7.0",
-    "Debian - Kali 2024.3"
+    "RedHat - CentOS (Stream 9)",
+    "Debian - Ubuntu Server (24.04.1)",
+    "RedHat - Fedora Server (41-1.4)",
+    "Debian - Debian (12.7.0)",
+    "Debian - Kali (2024.3)"
 )
 
 # Function to display the menu and get the user's choice
