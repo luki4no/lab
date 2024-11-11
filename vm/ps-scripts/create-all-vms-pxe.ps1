@@ -1,23 +1,32 @@
 # Path to the directory containing the VM scripts
 $scriptDir = "C:\lab\vm\ps-scripts"
 
-# Array of script names, excluding pfsense-vm-pxe.ps1
+# Array of script names with numbering, as they appear in the directory
 $scripts = @(
-    "centos-vm-pxe.ps1",
-    "ubuntu-vm-pxe.ps1",
-    "fedora-vm-pxe.ps1",
-    "debian-vm-pxe.ps1",
-    "kali-vm-pxe.ps1"
+    "1. centos-vm-pxe.ps1",
+    "2. ubuntu-vm-pxe.ps1",
+    "3. fedora-vm-pxe.ps1",
+    "4. debian-vm-pxe.ps1",
+    "5. kali-vm-pxe.ps1"
+)
+
+# Descriptive names for each option
+$descriptions = @(
+    "Install CentOS Stream 9",
+    "Install Ubuntu Server 24.04.1",
+    "Install Fedora Server 41-1.4",
+    "Install Debian 12.7.0",
+    "Install Kali 2024.3"
 )
 
 # Function to display the menu and get the user's choice
 function Show-Menu {
-    Write-Host "Please choose an option:"
-    for ($i = 0; $i -lt $scripts.Count; $i++) {
-        Write-Host "$($i + 1). ${scripts[$i]}"
+    Write-Host "`nPlease choose an option:"
+    for ($i = 0; $i -lt $descriptions.Count; $i++) {
+        Write-Host "$($i + 1). $($descriptions[$i])"
     }
-    Write-Host "$($scripts.Count + 1). Install All VMs"
-    Write-Host "$($scripts.Count + 2). Exit"
+    Write-Host "$($descriptions.Count + 1). >>> Install All VMs <<<"
+    Write-Host "$($descriptions.Count + 2). Exit"
 
     $choice = Read-Host "Enter the number of your choice"
     return [int]$choice
@@ -29,23 +38,35 @@ do {
 
     if ($choice -ge 1 -and $choice -le $scripts.Count) {
         # Execute a single selected script
-        $scriptPath = Join-Path -Path $scriptDir -ChildPath $scripts[$choice - 1]
+        $scriptName = $scripts[$choice - 1]
+        $scriptPath = Join-Path -Path $scriptDir -ChildPath $scriptName
         if (Test-Path $scriptPath) {
-            Write-Host "Executing ${scripts[$choice - 1]} ..."
-            & $scriptPath
+            Write-Host "Executing ${descriptions[$choice - 1]} ..."
+            try {
+                & $scriptPath
+                Write-Host "${descriptions[$choice - 1]} completed successfully."
+            } catch {
+                Write-Host "Error executing ${descriptions[$choice - 1]}: ${_}"
+            }
         } else {
-            Write-Host "Script ${scripts[$choice - 1]} does not exist in $scriptDir."
+            Write-Host "Script ${scriptName} does not exist in $scriptDir."
         }
     } elseif ($choice -eq $scripts.Count + 1) {
         # Execute all scripts
         Write-Host "Executing all VM creation scripts..."
-        foreach ($script in $scripts) {
-            $scriptPath = Join-Path -Path $scriptDir -ChildPath $script
+        foreach ($scriptName in $scripts) {
+            $scriptPath = Join-Path -Path $scriptDir -ChildPath $scriptName
+            $description = $descriptions[$scripts.IndexOf($scriptName)]
             if (Test-Path $scriptPath) {
-                Write-Host "Executing $script ..."
-                & $scriptPath
+                Write-Host "Executing ${description} ..."
+                try {
+                    & $scriptPath
+                    Write-Host "${description} completed successfully."
+                } catch {
+                    Write-Host "Error executing ${description}: ${_}"
+                }
             } else {
-                Write-Host "Script $script does not exist in $scriptDir."
+                Write-Host "Script ${scriptName} does not exist in $scriptDir."
             }
         }
         Write-Host "All VM creation scripts have been executed."
