@@ -19,11 +19,8 @@ network --hostname=fedora
 # Network configuration with static IP for eth0
 network --bootproto=static --device=eth0 --ip=192.168.100.12 --netmask=255.255.255.0 --gateway=192.168.100.2 --nameserver=192.168.100.2 --onboot=yes
 
-# System bootloader configuration
-bootloader --location=mbr --boot-drive=sda --append="console=ttyS0,115200n8"
-
-# Clear the Master Boot Record
-zerombr
+# System bootloader configuration for EFI (fixed to use 'boot' location)
+bootloader --location=boot --boot-drive=sda --append="console=ttyS0,115200n8"
 
 # Partition clearing information and setup
 clearpart --all --initlabel
@@ -44,14 +41,12 @@ volgroup VolGroup --pesize=4096 pv.01
 logvol / --fstype="xfs" --name=root --vgname=VolGroup --size=10240 --grow
 logvol swap --name=swap --vgname=VolGroup --size=2048
 
-# Ensure root partition is mounted with defaults in /etc/fstab
-%post
-sed -i 's|\( / xfs \)defaults|\1defaults,rw|' /etc/fstab
-%end
-
-# Packages section (minimal install for debugging purposes)
+# Packages section (install vim, net-tools, git)
 %packages
 @core
+vim
+net-tools
+git
 %end
 
 # Text mode installation
@@ -66,8 +61,14 @@ firstboot --disable
 # Disable the initial-setup service
 services --disabled=initial-setup
 
-# Use the %post section to force a system poweroff
-%post --nochroot
-echo "Powering off the system after installation..."
+# Use the %post section to install Ansible and power off after installation
+%post --log=/tmp/ks-post.log --nochroot
+# Install Ansible
+echo "Installing Ansible..." >> /tmp/ks-post.log
+dnf install -y ansible >> /tmp/ks-post.log
+echo "Ansible installation completed." >> /tmp/ks-post.log
+
+# Power off the system after installation
+echo "Powering off the system after installation..." >> /tmp/ks-post.log
 /sbin/poweroff
 %end
