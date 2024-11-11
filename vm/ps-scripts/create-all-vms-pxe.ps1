@@ -1,3 +1,6 @@
+# Stop the script if any error occurs
+$ErrorActionPreference = "Stop"
+
 # Path to the directory containing the VM scripts
 $scriptDir = "C:\lab\vm\ps-scripts"
 
@@ -21,7 +24,8 @@ $descriptions = @(
 
 # Function to display the menu and get the user's choice
 function Show-Menu {
-    Write-Host "`nPlease choose an option:"
+    Write-Host "`nThis script will create the Hyper-V VM profile(s), for unattended PXE installations`n"
+    Write-Host "Please choose an option:"
     for ($i = 0; $i -lt $descriptions.Count; $i++) {
         Write-Host "$($i + 1). $($descriptions[$i])"
     }
