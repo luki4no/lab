@@ -6,9 +6,9 @@ $diskDir = "C:\lab\vm\hdds"
 New-Item -ItemType Directory -Force -Path $isoDir, $diskDir
 
 # Download Debian ISO if not already downloaded
-$debianIsoPath = "$isoDir\debian-12.7.0-amd64-DVD-1.iso"
+$debianIsoPath = "$isoDir\debian-12.8.0-amd64-netinst.iso"
 if (-Not (Test-Path $debianIsoPath)) {
-    $debianIsoUrl = "https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-12.7.0-amd64-DVD-1.iso"
+    $debianIsoUrl = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.8.0-amd64-netinst.iso"
     Invoke-WebRequest -Uri $debianIsoUrl -OutFile $debianIsoPath
     Write-Host "Debian ISO downloaded."
 } else {
