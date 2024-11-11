@@ -28,8 +28,8 @@ iso_url_3="https://download.fedoraproject.org/pub/fedora/linux/releases/41/Serve
 iso_file_3="Fedora-Server-dvd-x86_64-41-1.4.iso"
 
 iso_name_4="Debian - Debian (12.7.0)"
-iso_url_4="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso"
-iso_file_4="debian-12.7.0-amd64-netinst.iso"
+iso_url_4="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.8.0-amd64-netinst.iso"
+iso_file_4="debian-12.8.0-amd64-netinst.iso"
 
 iso_name_5="Debian - Kali (2024.3)"
 iso_url_5="https://cdimage.kali.org/kali-2024.3/kali-linux-2024.3-installer-netinst-amd64.iso"
