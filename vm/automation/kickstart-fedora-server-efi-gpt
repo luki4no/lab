@@ -61,8 +61,12 @@ firstboot --disable
 # Disable the initial-setup service
 services --disabled=initial-setup
 
-# Use the %post section to power off after installation
-%post --log=/tmp/ks-post.log --nochroot
+# Use the %post section to install Ansible and power off after installation
+%post --log=/tmp/ks-post.log
+# Install Ansible
+echo "Installing Ansible..." >> /tmp/ks-post.log
+dnf install -y ansible >> /tmp/ks-post.log
+echo "Ansible installation completed." >> /tmp/ks-post.log
 
 # Power off the system after installation
 echo "Powering off the system after installation..." >> /tmp/ks-post.log
