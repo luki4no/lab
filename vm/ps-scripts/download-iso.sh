@@ -7,7 +7,7 @@ echo "2. Debian - Ubuntu Server (24.04.1)"
 echo "3. RedHat - Fedora Server (41-1.4)"
 echo "4. Debian - Debian (12.8.0)"
 echo "5. Debian - Kali (2024.3)"
-echo "6. >>> Download All VMs <<<"
+echo "6. >>> Download All ISOs <<<"
 echo "7. Exit"
 echo
 
