@@ -13,15 +13,26 @@ echo
 # Prompt the user for a choice
 read -p "Enter the number of your choice (1-6): " selection
 
-# Define URLs and filenames for each ISO
-declare -A isoUrls
-isoUrls=(
-    ["1"]="RedHat - CentOS (Stream-9) - Full|https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso&redirect=1&protocol=https|CentOS-Stream-9-latest-x86_64-dvd1.iso"
-    ["2"]="Debian - Ubuntu (24.04.1) - Live|https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso|ubuntu-24.04.1-live-server-amd64.iso"
-    ["3"]="RedHat - Fedora (41-1.4) - Server|https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-dvd-x86_64-41-1.4.iso|Fedora-Server-dvd-x86_64-41-1.4.iso"
-    ["4"]="Debian - Debian (12.8.0) - NetInstaller|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.8.0-amd64-netinst.iso|debian-12.8.0-amd64-netinst.iso"
-    ["5"]="Debian - Kali (2024.3) - NetInstaller|https://cdimage.kali.org/kali-2024.3/kali-linux-2024.3-installer-netinst-amd64.iso|kali-linux-2024.3-installer-netinst-amd64.iso"
-)
+# Define ISO details as individual variables
+iso_name_1="RedHat - CentOS (Stream-9) - Full"
+iso_url_1="https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso&redirect=1&protocol=https"
+iso_file_1="CentOS-Stream-9-latest-x86_64-dvd1.iso"
+
+iso_name_2="Debian - Ubuntu (24.04.1) - Live"
+iso_url_2="https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
+iso_file_2="ubuntu-24.04.1-live-server-amd64.iso"
+
+iso_name_3="RedHat - Fedora (41-1.4) - Server"
+iso_url_3="https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-dvd-x86_64-41-1.4.iso"
+iso_file_3="Fedora-Server-dvd-x86_64-41-1.4.iso"
+
+iso_name_4="Debian - Debian (12.8.0) - NetInstaller"
+iso_url_4="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.8.0-amd64-netinst.iso"
+iso_file_4="debian-12.8.0-amd64-netinst.iso"
+
+iso_name_5="Debian - Kali (2024.3) - NetInstaller"
+iso_url_5="https://cdimage.kali.org/kali-2024.3/kali-linux-2024.3-installer-netinst-amd64.iso"
+iso_file_5="kali-linux-2024.3-installer-netinst-amd64.iso"
 
 # Set the download directory
 iso_dir="/usr/local/www/pxe/iso"
@@ -34,10 +45,10 @@ fi
 
 # Function to download a single ISO
 download_iso() {
-    local name="$1"
-    local url="$2"
-    local file="$3"
-    local iso_file_path="$iso_dir/$file"
+    name="$1"
+    url="$2"
+    file="$3"
+    iso_file_path="$iso_dir/$file"
 
     if [ ! -f "$iso_file_path" ]; then
         echo "Downloading $name ISO..."
@@ -49,17 +60,33 @@ download_iso() {
 }
 
 # Download based on the user's choice
-if [ "$selection" -ge 1 ] && [ "$selection" -le 5 ]; then
-    IFS='|' read -r name url file <<< "${isoUrls[$selection]}"
-    download_iso "$name" "$url" "$file"
-elif [ "$selection" -eq 6 ]; then
-    echo "Downloading all ISOs..."
-    for key in "${!isoUrls[@]}"; do
-        IFS='|' read -r name url file <<< "${isoUrls[$key]}"
-        download_iso "$name" "$url" "$file"
-    done
-    echo "All ISOs downloaded."
-else
-    echo "Invalid selection. Exiting..."
-    exit 1
-fi
+case "$selection" in
+    1)
+        download_iso "$iso_name_1" "$iso_url_1" "$iso_file_1"
+        ;;
+    2)
+        download_iso "$iso_name_2" "$iso_url_2" "$iso_file_2"
+        ;;
+    3)
+        download_iso "$iso_name_3" "$iso_url_3" "$iso_file_3"
+        ;;
+    4)
+        download_iso "$iso_name_4" "$iso_url_4" "$iso_file_4"
+        ;;
+    5)
+        download_iso "$iso_name_5" "$iso_url_5" "$iso_file_5"
+        ;;
+    6)
+        echo "Downloading all ISOs..."
+        download_iso "$iso_name_1" "$iso_url_1" "$iso_file_1"
+        download_iso "$iso_name_2" "$iso_url_2" "$iso_file_2"
+        download_iso "$iso_name_3" "$iso_url_3" "$iso_file_3"
+        download_iso "$iso_name_4" "$iso_url_4" "$iso_file_4"
+        download_iso "$iso_name_5" "$iso_url_5" "$iso_file_5"
+        echo "All ISOs downloaded."
+        ;;
+    *)
+        echo "Invalid selection. Exiting..."
+        exit 1
+        ;;
+esac
