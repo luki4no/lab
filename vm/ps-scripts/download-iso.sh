@@ -2,11 +2,11 @@
 
 # Display options to the user
 echo "Please select which ISO image you want to download:"
-echo "1. RedHat - CentOS (Stream-9) - Full"
-echo "2. Debian - Ubuntu (24.04.1) - Live"
-echo "3. RedHat - Fedora (41-1.4) - Server"
-echo "4. Debian - Debian (12.8.0) - NetInstaller"
-echo "5. Debian - Kali (2024.3) - NetInstaller"
+echo "1. RedHat - CentOS (Stream 9)"
+echo "2. Debian - Ubuntu Server (24.04.1)"
+echo "3. RedHat - Fedora Server (41-1.4)"
+echo "4. Debian - Debian (12.7.0)"
+echo "5. Debian - Kali (2024.3)"
 echo "6. >>> Download All VMs <<<"
 echo "7. Exit"
 echo
@@ -15,23 +15,23 @@ echo
 read -p "Enter the number of your choice (1-7): " selection
 
 # Define ISO details as individual variables
-iso_name_1="RedHat - CentOS (Stream-9) - Full"
+iso_name_1="RedHat - CentOS (Stream 9)"
 iso_url_1="https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso&redirect=1&protocol=https"
 iso_file_1="CentOS-Stream-9-latest-x86_64-dvd1.iso"
 
-iso_name_2="Debian - Ubuntu (24.04.1) - Live"
+iso_name_2="Debian - Ubuntu Server (24.04.1)"
 iso_url_2="https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-live-server-amd64.iso"
 iso_file_2="ubuntu-24.04.1-live-server-amd64.iso"
 
-iso_name_3="RedHat - Fedora (41-1.4) - Server"
+iso_name_3="RedHat - Fedora Server (41-1.4)"
 iso_url_3="https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-dvd-x86_64-41-1.4.iso"
 iso_file_3="Fedora-Server-dvd-x86_64-41-1.4.iso"
 
-iso_name_4="Debian - Debian (12.8.0) - NetInstaller"
-iso_url_4="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.8.0-amd64-netinst.iso"
-iso_file_4="debian-12.8.0-amd64-netinst.iso"
+iso_name_4="Debian - Debian (12.7.0)"
+iso_url_4="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.7.0-amd64-netinst.iso"
+iso_file_4="debian-12.7.0-amd64-netinst.iso"
 
-iso_name_5="Debian - Kali (2024.3) - NetInstaller"
+iso_name_5="Debian - Kali (2024.3)"
 iso_url_5="https://cdimage.kali.org/kali-2024.3/kali-linux-2024.3-installer-netinst-amd64.iso"
 iso_file_5="kali-linux-2024.3-installer-netinst-amd64.iso"
 
