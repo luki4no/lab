@@ -1,14 +1,17 @@
+# Stop the script if any error occurs
+$ErrorActionPreference = "Stop"
+
 # Path to the directory containing the VM scripts
 $scriptDir = "C:\lab\vm\ps-scripts"
 
 # Array of script names
 $scripts = @(
-    "pfsense-vm.ps1",
-    "centos-vm.ps1",
-    "ubuntu-vm.ps1",
-    "fedora-vm.ps1",
-    "debian-vm.ps1",
-    "kali-vm.ps1"
+    "pfsense-vm-pxe.ps1",
+    "centos-vm-pxe.ps1",
+    "ubuntu-vm-pxe.ps1",
+    "fedora-vm-pxe.ps1",
+    "debian-vm-pxe.ps1",
+    "kali-vm-pxe.ps1"
 )
 
 # Iterate through each script and execute it
