@@ -1,0 +1,31 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu
+    password: $6$yPrdHJ2J$TTeU5eIH6N9bXABQxThsOqNuZ5ZT3HjEo6rw2xz6FTFv0tKU9ZaYk9TQfF8mHeWt5SOnuEbwZoX7yybHB/hfd/
+    realname: lucian
+    username: lucian
+  kernel:
+    package: linux-generic
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ''
+  locale: en_US.UTF-8
+  ssh:
+    allow-pw: true
+    install-server: true
+  updates: security
+  shutdown: reboot
+  network:
+    version: 2
+    ethernets:
+      eth0:
+        dhcp4: false
+        addresses:
+          - 192.168.100.11/24
+        gateway4: 192.168.100.2
+        nameservers:
+          addresses:
+            - 1.1.1.1
