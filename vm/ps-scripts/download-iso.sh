@@ -11,8 +11,9 @@ echo "6. >>> Download All ISOs <<<"
 echo "7. Exit"
 echo
 
-# Prompt the user for a choice
-read -p "Enter the number of your choice (1-7): " selection
+# Prompt the user for a choice with output flush
+printf "Enter the number of your choice (1-7): "
+read selection
 
 # Define ISO details as individual variables
 iso_name_1="RedHat - CentOS (Stream 9)"
