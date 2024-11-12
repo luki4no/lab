@@ -1,0 +1,89 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu
+    password: $6$hxhzmydRMZPCEFvy$FcHn0eHMp6VcWaQDZJyvUkSlpu5TCVLUUtOEObd/KHuxMa10Y1.6rjeT6WVNxqZA0ZQhJa1qxecdrred2ZMl/.
+    realname: lucian
+    username: lucian
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+  network:
+    version: 2
+    ethernets:
+      eth0:
+        dhcp4: false
+        addresses:
+          - 192.168.100.11/24
+        routes:
+          - to: default
+            via: 192.168.100.2
+        nameservers:
+          addresses:
+            - 1.1.1.1
+  ssh:
+    allow-pw: true
+    install-server: true
+  storage:
+    config:
+    - ptable: gpt
+      path: /dev/sda
+      wipe: superblock-recursive
+      id: disk-sda
+      type: disk
+    - device: disk-sda
+      size: 1127219200
+      number: 1
+      flag: boot
+      path: /dev/sda1
+      id: partition-0
+      type: partition
+    - fstype: fat32
+      volume: partition-0
+      id: format-0
+      type: format
+    - device: disk-sda
+      size: 2147483648
+      number: 2
+      path: /dev/sda2
+      id: partition-1
+      type: partition
+    - fstype: ext4
+      volume: partition-1
+      id: format-1
+      type: format
+    - device: disk-sda
+      size: 82622545920
+      number: 3
+      path: /dev/sda3
+      id: partition-2
+      type: partition
+    - name: ubuntu-vg
+      devices:
+      - partition-2
+      id: lvm_volgroup-0
+      type: lvm_volgroup
+    - name: ubuntu-lv
+      volgroup: lvm_volgroup-0
+      size: 41309700096B
+      path: /dev/ubuntu-vg/ubuntu-lv
+      id: lvm_partition-0
+      type: lvm_partition
+    - fstype: ext4
+      volume: lvm_partition-0
+      id: format-2
+      type: format
+    - path: /
+      device: format-2
+      id: mount-2
+      type: mount
+    - path: /boot
+      device: format-1
+      id: mount-1
+      type: mount
+    - path: /boot/efi
+      device: format-0
+      id: mount-0
+      type: mount
+  updates: security
