@@ -79,6 +79,18 @@ d-i pkgsel/include string openssh-server
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/bootdev string /dev/sda
 
+### Configure network-based repository
+d-i cdrom-detect/eject boolean false
+d-i cdrom-detect/try-usb boolean false
+d-i debian-installer/allow_unauthenticated boolean true
+d-i apt-setup/local0/repository string http://192.168.100.2/pxe/debian
+d-i apt-setup/local0/comment string "Local Debian Repository"
+d-i apt-setup/use_mirror boolean false
+d-i mirror/country string manual
+d-i mirror/http/hostname string 192.168.100.2
+d-i mirror/http/directory string /pxe/debian
+d-i mirror/http/proxy string
+
 ### Finish installation
 d-i finish-install/reboot_in_progress note
 
