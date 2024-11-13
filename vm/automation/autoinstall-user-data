@@ -5,6 +5,7 @@ autoinstall:
     hostname: ubuntu
     realname: lucian
     username: lucian
+    # Hash password generated with command: $ openssl passwd -6 "Pa$$w0rd"
     password: "$6$7FhyOtWIuAzyfqyx$B/djVlkuGvjCkYdjeKxjqsDr0ZyhgPjGp1/d.oEoPHc2dEj57yz9SlmQLPoOCkiI78zpi2gBuUt9wJ5OFCRCe/"
   kernel:
     package: linux-generic
