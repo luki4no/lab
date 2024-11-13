@@ -12,12 +12,12 @@ LABEL local
 LABEL Install CentOS
   MENU LABEL Install CentOS Stream 9
   KERNEL /centos/vmlinuz
-  APPEND initrd=/centos/initrd.img inst.repo=http://192.168.100.2/pxe/centos inst.ks=http://192.168.100.2/pxe/automation/kickstart-centos.cfg quiet
+  APPEND initrd=/centos/initrd.img inst.repo=http://192.168.100.2/pxe/centos inst.ks=http://192.168.100.2/pxe/automation/ks-centos-bios quiet
 
 LABEL Install Fedora
   MENU LABEL Install Fedora Server
   KERNEL /fedora/vmlinuz
-  APPEND initrd=/fedora/initrd.img inst.repo=http://192.168.100.2/pxe/fedora inst.ks=http://192.168.100.2/pxe/automation/kickstart-fedora-server.cfg quiet
+  APPEND initrd=/fedora/initrd.img inst.repo=http://192.168.100.2/pxe/fedora inst.ks=http://192.168.100.2/pxe/automation/ks-fedora-bios quiet
 
 LABEL Install Ubuntu
   MENU LABEL Install Ubuntu
