@@ -16,22 +16,16 @@ user --name=lucian --password=Pa$$w0rd --groups=wheel --plaintext
 # Set hostname
 network --hostname=fedora
 
-# Network configuration with static IP for enp0s10f0
-network --bootproto=static --device=enp0s10f0 --ip=192.168.100.12 --netmask=255.255.255.0 --gateway=192.168.100.2 --nameserver=192.168.100.2 --onboot=yes
+# Network configuration with static IP for eth0
+network --bootproto=static --device=eth0 --ip=192.168.100.12 --netmask=255.255.255.0 --gateway=192.168.100.2 --nameserver=192.168.100.2 --onboot=yes
 
-# System bootloader configuration
-bootloader --location=mbr --boot-drive=sda
-
-# Clear the Master Boot Record
-zerombr
+# System bootloader configuration for BIOS
+bootloader --location=mbr --boot-drive=sda --append="console=ttyS0,115200n8"
 
 # Partition clearing information and setup
 clearpart --all --initlabel
 
-# Create a BIOS Boot Partition (required for BIOS systems with GPT)
-part biosboot --fstype="biosboot" --size=1
-
-# Create a /boot partition (outside of LVM)
+# BIOS Partition Scheme (no EFI partition needed)
 part /boot --fstype="xfs" --size=1024
 
 # Create the LVM physical volume
@@ -40,13 +34,16 @@ part pv.01 --fstype="lvmpv" --size=1 --grow
 # Create the volume group
 volgroup VolGroup --pesize=4096 pv.01
 
-# Create root partition and swap inside LVM
+# Create root partition and swap inside LVM with xfs for root
 logvol / --fstype="xfs" --name=root --vgname=VolGroup --size=10240 --grow
 logvol swap --name=swap --vgname=VolGroup --size=2048
 
-# Packages section (minimal install for debugging purposes)
+# Packages section (install vim, net-tools, git)
 %packages
 @core
+vim
+net-tools
+git
 %end
 
 # Text mode installation
@@ -61,8 +58,14 @@ firstboot --disable
 # Disable the initial-setup service
 services --disabled=initial-setup
 
-# Use the %post section to force a system poweroff
-%post --nochroot
-echo "Powering off the system after installation..."
+# Use the %post section to install Ansible and power off after installation
+%post --log=/tmp/ks-post.log
+# Install Ansible
+echo "Installing Ansible..." >> /tmp/ks-post.log
+dnf install -y ansible >> /tmp/ks-post.log
+echo "Ansible installation completed." >> /tmp/ks-post.log
+
+# Power off the system after installation
+echo "Powering off the system after installation..." >> /tmp/ks-post.log
 /sbin/poweroff
 %end
