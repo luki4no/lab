@@ -10,19 +10,19 @@ LABEL local
   LOCALBOOT 0
 
 LABEL Install CentOS
-  MENU LABEL Install CentOS
+  MENU LABEL Install CentOS Stream 9
   KERNEL /centos/vmlinuz
-  APPEND initrd=/centos/initrd.img inst.repo=http://192.168.100.2/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso inst.ks=http://192.168.100.2/automation/kickstart-centos.cfg
+  APPEND initrd=/centos/initrd.img inst.stage2=http://192.168.100.2/pxe/centos inst.ks=http://192.168.100.2/pxe/automation/kickstart-centos-efi-gpt quiet
 
 LABEL Install Fedora
-  MENU LABEL Install Fedora
+  MENU LABEL Install Fedora Server
   KERNEL /fedora/vmlinuz
-  APPEND initrd=/fedora/initrd.img inst.repo=http://192.168.100.2/iso/Fedora-Server-dvd-x86_64-41-1.4.iso inst.ks=http://192.168.100.2/automation/kickstart-fedora-server.cfg
+  APPEND initrd=/fedora/initrd.img inst.stage2=http://192.168.100.2/pxe/fedora inst.ks=http://192.168.100.2/pxe/automation/kickstart-fedora-server-efi-gpt quiet
 
 LABEL Install Ubuntu
   MENU LABEL Install Ubuntu
   KERNEL /ubuntu/vmlinuz
-  APPEND initrd=/ubuntu/initrd.img autoinstall ds=nocloud-net;s=http://192.168.100.2/ubuntu/
+  APPEND initrd=/ubuntu/initrd.img boot=casper quiet autoinstall ds=nocloud-net;s=http://192.168.100.2/ubuntu/ cdrom-detect/try-usb=true toram
 
 LABEL Install Debian
   MENU LABEL Install Debian
