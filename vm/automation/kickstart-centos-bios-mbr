@@ -4,7 +4,7 @@ lang en_US.UTF-8
 # Keyboard layout
 keyboard us
 
-# Timezone setup (corrected option)
+# Timezone setup
 timezone Europe/Berlin --utc
 
 # Root password
@@ -19,19 +19,13 @@ network --hostname=centos
 # Network configuration with static IP for eth0
 network --bootproto=static --device=eth0 --ip=192.168.100.10 --netmask=255.255.255.0 --gateway=192.168.100.2 --nameserver=192.168.100.2 --onboot=yes
 
-# System bootloader configuration
-bootloader --location=mbr --boot-drive=sda
-
-# Clear the Master Boot Record
-zerombr
+# Bootloader configuration for BIOS
+bootloader --location=mbr --boot-drive=sda --append="console=ttyS0,115200n8"
 
 # Partition clearing information and setup
 clearpart --all --initlabel
 
-# EFI System Partition (required for UEFI)
-part /boot/efi --fstype="efi" --size=600 --fsoptions="umask=0077,shortname=winnt"
-
-# Create a /boot partition (outside of LVM)
+# BIOS Partition Scheme (no EFI partition needed)
 part /boot --fstype="xfs" --size=1024
 
 # Create the LVM physical volume
@@ -44,36 +38,42 @@ volgroup VolGroup --pesize=4096 pv.01
 logvol / --fstype="xfs" --name=root --vgname=VolGroup --size=10240 --grow
 logvol swap --name=swap --vgname=VolGroup --size=2048
 
-# Minimal installation group (without EPEL)
+# Installation source - updated to point to unpacked CentOS media on pfSense
+url --url=http://192.168.100.2/pxe/centos
+
+# Packages section (minimal install for debugging purposes)
 %packages
-@^minimal-environment
-yum-utils
+@core
+vim
+net-tools
+git
 %end
 
-# Post-install script for /etc/hosts configuration
-%post --nochroot
-# Enable network connection
-echo "nameserver 192.168.100.1" > /mnt/sysimage/etc/resolv.conf
+# Text mode installation
+text
 
-# Copy repo info and enable network in the chrooted system
-cp /etc/yum.repos.d/* /mnt/sysimage/etc/yum.repos.d/
+# Skip unnecessary prompts
+skipx
 
-# Append entries to /mnt/sysimage/etc/hosts
-cat << EOL >> /mnt/sysimage/etc/hosts
-192.168.100.2    pfsense
-192.168.100.3    onion ids
-192.168.100.10   centos ansible greenbone wazuh
-192.168.100.11   ubuntu
-192.168.100.12   fedora
-192.168.100.13   debian
-192.168.100.14   kali
-EOL
+# Disable first boot setup wizard
+firstboot --disable
 
-# Clean up
-chroot /mnt/sysimage /bin/bash <<EOF
-yum clean all
-EOF
+# Disable the initial-setup service
+services --disabled=initial-setup
+
+# Use the %post section to install Ansible and power off after installation
+%post --log=/tmp/ks-post.log
+# Ensure EPEL repo is installed and Ansible is installed
+echo "Installing EPEL repository..." >> /tmp/ks-post.log
+yum install -y epel-release >> /tmp/ks-post.log
+echo "EPEL repository installed." >> /tmp/ks-post.log
+
+# Install Ansible after enabling the EPEL repository
+echo "Installing Ansible..." >> /tmp/ks-post.log
+yum install -y ansible >> /tmp/ks-post.log
+echo "Ansible installation completed." >> /tmp/ks-post.log
+
+# Power off the system after installation
+echo "Powering off the system after installation..." >> /tmp/ks-post.log
+/sbin/poweroff
 %end
-
-# Reboot after installation
-reboot
