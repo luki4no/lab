@@ -12,7 +12,7 @@ LABEL local
 LABEL Install CentOS
   MENU LABEL Install CentOS Stream 9
   KERNEL /centos/vmlinuz
-  APPEND initrd=/centos/initrd.img inst.repo=http://192.168.100.2/pxe/centos inst.ks=http://192.168.100.2/pxe/automation/ks-centos-bios quiet
+  APPEND initrd=/centos/initrd.img inst.repo=nfs:192.168.100.10:/srv/nfs/pxe/CentOS-Stream-9-latest-x86_64-dvd1.iso inst.ks=http://192.168.100.2/pxe/automation/kickstart-centos-bios-mbr quiet
 
 LABEL Install Fedora
   MENU LABEL Install Fedora Server
