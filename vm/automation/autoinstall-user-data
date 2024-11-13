@@ -3,9 +3,9 @@ autoinstall:
   version: 1
   identity:
     hostname: ubuntu
-    password: $6$yPrdHJ2J$TTeU5eIH6N9bXABQxThsOqNuZ5ZT3HjEo6rw2xz6FTFv0tKU9ZaYk9TQfF8mHeWt5SOnuEbwZoX7yybHB/hfd/
     realname: lucian
     username: lucian
+    password: "$6$7FhyOtWIuAzyfqyx$B/djVlkuGvjCkYdjeKxjqsDr0ZyhgPjGp1/d.oEoPHc2dEj57yz9SlmQLPoOCkiI78zpi2gBuUt9wJ5OFCRCe/"
   kernel:
     package: linux-generic
   keyboard:
