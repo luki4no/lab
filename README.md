@@ -50,20 +50,40 @@ Git für Windows installieren:
 winget install --id Git.Git -e --source winget
 ```
 
-Repository im Pfad 'C:\lab' herunterzuladen:
+# Git übernehmen
 
-```powershell
-git clone https://github.com/luki4no/lab.git C:\lab
-```
-```powershell
-cd C:\lab
-```
+Um das Repository `https://github.com/luki4no/lab.git` in dein eigenes GitHub-Konto zu klonen, kannst du entweder das Repository **forken** (empfohlen) oder manuell kopieren und in ein neues Repository pushen. Hier ist die aktualisierte Anleitung:
 
-Der Ordner 'C:\lab' wird erstellt. In diesem Ordner wird die Git Repo heruntergeladen.
+### Methode 1: Forken (Empfohlen)
+1. **Öffne das Repository** auf GitHub: [https://github.com/luki4no/lab](https://github.com/luki4no/lab).
+2. Klicke oben rechts auf die Schaltfläche **Fork**.
+3. GitHub erstellt nun eine Kopie des Repositorys in deinem eigenen Konto.
 
-Die VM-bezogenen Dateien werden von jetzt an hier platziert.
+Das Forken erstellt eine Kopie des Repositorys in deinem Konto und behält die Verbindung zum Original-Repository bei, was spätere Updates und Pull Requests erleichtert.
 
-Struktur anschauen:
+### Methode 2: Manuelles Klonen und Pushen
+Falls du das Repository ohne eine direkte Verbindung zum Original kopieren möchtest, folge diesen Schritten:
+
+1. **Klonen des Repositorys lokal**:
+   ```bash
+   git clone https://github.com/luki4no/lab.git C:\lab
+   ```
+
+2. **Neues Repository auf GitHub erstellen**:
+   - Gehe zu deinem GitHub-Profil und erstelle ein neues Repository (z. B. `lab-copy`).
+
+3. **Das neue Repository als Remote hinzufügen und pushen**:
+   Gehe im geklonten Ordner `C:\lab` folgendermaßen vor:
+   ```bash
+   cd C:\lab
+   git remote remove origin  # Entferne das alte Remote
+   git remote add origin https://github.com/deinusername/lab-copy.git
+   git push -u origin main  # Push in dein neues Repository
+   ```
+
+Nun befindet sich das Repository in deinem GitHub-Konto und ist vom Original unabhängig, es sei denn, du wählst eine Verknüpfung für spätere Änderungen.
+
+# git clone Struktur:
 ```powershell
 tree /F
 ```
