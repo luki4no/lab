@@ -64,7 +64,7 @@ firstboot --disable
 # Disable the initial-setup service
 services --disabled=initial-setup
 
-# Use the %post section to install Ansible, Docker, and power off after installation
+# Use the %post section to install Ansible, Docker, Docker Compose, and power off after installation
 %post --log=/tmp/ks-post.log
 # Ensure EPEL repo is installed and Ansible is installed
 echo "Installing EPEL repository..." >> /tmp/ks-post.log
@@ -76,14 +76,14 @@ echo "Installing Ansible..." >> /tmp/ks-post.log
 yum install -y ansible >> /tmp/ks-post.log
 echo "Ansible installation completed." >> /tmp/ks-post.log
 
-# Install Docker
-echo "Installing Docker..." >> /tmp/ks-post.log
+# Install Docker and Docker Compose
+echo "Installing Docker and Docker Compose..." >> /tmp/ks-post.log
 yum install -y yum-utils >> /tmp/ks-post.log
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo >> /tmp/ks-post.log
-yum install -y docker-ce docker-ce-cli containerd.io >> /tmp/ks-post.log
+yum install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin >> /tmp/ks-post.log
 systemctl enable docker >> /tmp/ks-post.log
 systemctl start docker >> /tmp/ks-post.log
-echo "Docker installation completed." >> /tmp/ks-post.log
+echo "Docker and Docker Compose installation completed." >> /tmp/ks-post.log
 
 # Power off the system after installation
 echo "Powering off the system after installation..." >> /tmp/ks-post.log
