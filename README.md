@@ -29,16 +29,52 @@ Gesamtverbrauch ohne Software:
 * Betriebssystem: Windows 11
 * Hypervisor: Hyper-V
 
-Folgende Kommandos in Terminal bzw PowerShell als Admin ausführen:
+# Schritte
 
-Passende PowerShell Execution Policy setzen, um das Ausführen lokaler Skripte zuzulassen:
+## Powershell Skripte zulassen
 
+Du musst in der Regel die **Execution Policy** in Windows 11 anpassen, um deine eigenen PowerShell-Skripte ausführen zu können, da die Standardrichtlinie dies möglicherweise einschränkt.
+
+### 1. **Was ist die Execution Policy?**
+Die PowerShell **Execution Policy** legt fest, ob und wie Skripte ausgeführt werden können. Die häufigsten Richtlinien sind:
+- **Restricted**: Keine Skriptausführung erlaubt (Standard auf manchen Systemen).
+- **RemoteSigned**: Lokale Skripte können ausgeführt werden, aber heruntergeladene Skripte müssen von einem vertrauenswürdigen Herausgeber signiert sein.
+- **Unrestricted**: Alle Skripte können ausgeführt werden, es wird jedoch eine Warnung angezeigt, wenn Skripte aus dem Internet heruntergeladen wurden.
+
+### 2. **Aktuelle Richtlinie überprüfen**
+Um die aktuelle Richtlinie anzuzeigen, führe folgenden Befehl in PowerShell aus:
 ```powershell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+Get-ExecutionPolicy
 ```
-> RemoteSigned: Erlaubt das Ausführen von lokal erstellten Skripten ohne Einschränkungen. Skripte, die aus dem Internet heruntergeladen werden, müssen jedoch von einem vertrauenswürdigen Herausgeber signiert sein.
 
-Hyper-V Features installieren:
+### 3. **Richtlinie anpassen**
+Wenn die Richtlinie **Restricted** ist, musst du sie auf **RemoteSigned** oder eine weniger restriktive Option ändern.
+
+#### Für den aktuellen Benutzer festlegen:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+#### Für das gesamte System festlegen (Administratorrechte erforderlich):
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+```
+
+### 4. **Temporäre Richtlinie für eine Sitzung**
+Falls du die Richtlinie nicht dauerhaft ändern möchtest, kannst du sie für eine einzelne Sitzung umgehen, indem du PowerShell mit folgendem Befehl startest:
+```powershell
+powershell.exe -ExecutionPolicy Bypass
+```
+
+### 5. **Sicherheits-Hinweise**
+- Verwende **RemoteSigned**, um lokale Skripte und signierte Skripte aus externen Quellen auszuführen.
+- Vermeide **Unrestricted**, insbesondere wenn du Skripte aus unbekannten oder unzuverlässigen Quellen ausführst.
+- Überprüfe und teste Skripte immer, bevor du sie ausführst, um deren Sicherheit zu gewährleisten.
+
+Mit diesen Anpassungen kannst du deine eigenen Skripte sicher ausführen.
+
+
+## Hyper-V Features installieren
 
 ```powershell
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
@@ -50,7 +86,7 @@ Git für Windows installieren:
 winget install --id Git.Git -e --source winget
 ```
 
-# Git übernehmen
+## Git Repository herunterladen
 
 Um das Repository `https://github.com/luki4no/lab.git` in dein eigenes GitHub-Konto zu klonen, kannst du entweder das Repository **forken** (empfohlen) oder manuell kopieren und in ein neues Repository pushen. Hier ist die aktualisierte Anleitung:
 
@@ -83,107 +119,3 @@ Falls du das Repository ohne eine direkte Verbindung zum Original kopieren möch
 
 Nun befindet sich das Repository in deinem GitHub-Konto und ist vom Original unabhängig, es sei denn, du wählst eine Verknüpfung für spätere Änderungen.
 
-# git clone Struktur:
-```powershell
-tree /F
-```
-```plaintext
-PS C:\lab> tree /F
-Folder PATH listing for volume Windows
-Volume serial number is AC7C-AA26
-C:.
-│   0. README.md
-│   1. Umgebung.md
-│   2. Virtuelle Switches (Hyper-V).md
-│   3. Firewall implementieren (pfSense).md
-│   4. OpenVPN Server implementieren (pfSense).md
-│   5. Automatisierung mit Ansible.md
-│
-└───vm
-    ├───automation
-    │       ansible-pfsense-config.yml
-    │       kickstart-centos-bios-mbr
-    │       kickstart-fedora-server-bios-mbr
-    │       kickstart-fedora-server-efi-gpt
-    │       preseed-debian-efi-gpt
-    │
-    ├───backup
-    │       config-pfSense.home.arpa-20241106170305.xml
-    │       pfSense-UDP4-1194-lucian-config.ovpn
-    │       tftpboot-structure.tar.gz
-    │       tftpboot_backup.tar.gz
-    │       
-    ├───hdds
-    │       debian.vhdx
-    │       debian_10619A2F-5C19-466A-981F-93492645DFB8.avhdx
-    │       fedora.vhdx
-    │       fedora_A11B829E-57CD-43BD-85EA-4FCE27FA969D.avhdx
-    │       kali.vhdx
-    │       kali_3867AF9C-86B3-4E42-946F-7A4352AF3E30.avhdx
-    │       kali_C8431747-933C-464D-81DC-08CC87D0A938.avhdx
-    │       kali_D1E79693-C4CB-4901-B0D3-6FFB175D30D1.avhdx
-    │       ubuntu.vhdx
-    │       ubuntu_8DD98A3F-30A9-43F3-ACA9-1DA0BFA34635.avhdx
-    │
-    ├───iso-images
-    │       2022-07-01-raspios-bullseye-i386.iso
-    │       CentOS-Stream-9-latest-x86_64-boot.iso
-    │       CentOS-Stream-9-latest-x86_64-dvd1.iso
-    │       debian-12.7.0-amd64-DVD-1.iso
-    │       debian-12.7.0-amd64-netinst.iso
-    │       Fedora-Everything-netinst-x86_64-40-1.14.iso
-    │       Fedora-Server-dvd-x86_64-41-1.4.iso
-    │       Fedora-Workstation-Live-x86_64-40-1.14.iso
-    │       kali-linux-2024.2-installer-amd64.iso
-    │       kali-linux-2024.3-installer-netinst-amd64.iso
-    │       pfSense-CE-2.7.2-RELEASE-amd64
-    │       pfSense-CE-2.7.2-RELEASE-amd64.iso
-    │       securityonion-2.4.110-20241010.iso
-    │       ubuntu-24.04.1-desktop-amd64.iso
-    │       ubuntu-24.04.1-live-server-amd64.iso      
-    │       
-    ├───ps-scripts
-    │       create-centos-vm.ps1
-    │       create-debian-vm.ps1
-    │       create-fedora-vm.ps1
-    │       create-folders.ps1
-    │       create-internal-external-private-switches.ps1
-    │       create-kali-vm.ps1
-    │       create-pfsense-vm.ps1
-    │       create-ubuntu-vm.ps1
-    │       download-iso.ps1
-    │       remove-internal-external-private-switches.ps1
-    │
-    └───pxe
-        │   default
-        │   grub.cfg
-        │   ldlinux.c32
-        │   libcom32.c32
-        │   libutil.c32
-        │   menu.c32
-        │   pxelinux.0
-        │   Standard locations.txt
-        │   vesamenu.c32
-        │
-        ├───centos
-        │       initrd.img
-        │       vmlinuz
-        │
-        ├───debian
-        │       initrd.gz
-        │       vmlinuz
-        │
-        ├───fedora
-        │       initrd.img
-        │       vmlinuz
-        │
-        ├───kali
-        │       initrd.gz
-        │       vmlinuz
-        │
-        └───ubuntu
-                initrd
-                vmlinuz
-
-PS C:\lab>
-```
