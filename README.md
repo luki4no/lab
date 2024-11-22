@@ -29,7 +29,7 @@ Gesamtverbrauch ohne Software:
 * Betriebssystem: Windows 11
 * Hypervisor: Hyper-V
 
-# Schritte
+# Vorbereitungen
 
 ## Powershell Skripte zulassen
 
