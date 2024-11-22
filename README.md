@@ -1,4 +1,4 @@
-Diese Dokumentation erklärt Schritt-für-Schritt wie man eine CyberSecurity Testumgebung in Windows mittels Hyper-V aufbaut.
+Diese Dokumentation erklärt Schritt für Schritt, wie man eine auf Linux basierende Cybersecurity-Testumgebung unter Windows mit Hyper-V aufbaut.
 
 # Voraussetzungen
 
