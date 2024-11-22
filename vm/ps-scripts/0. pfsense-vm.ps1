@@ -17,7 +17,7 @@ if (-Not (Test-Path $centosIsoPath)) {
 
 # Create pfSense VM with specified parameters
 $centosVhdPath = "$diskDir\0. pfsense.vhdx"
-New-VM -Name "0. pfsense" -MemoryStartupBytes 2GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 80GB -Generation 1
+New-VM -Name "0. pfsense" -MemoryStartupBytes 2GB -NewVHDPath $centosVhdPath -NewVHDSizeBytes 100GB -Generation 1
 Set-VMProcessor -VMName "0. pfsense" -Count 1
 Set-VMMemory -VMName "0. pfsense" -DynamicMemoryEnabled $true -MinimumBytes 2GB
 
