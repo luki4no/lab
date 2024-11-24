@@ -1,3 +1,33 @@
+# Function to prompt the user to select a network adapter
+function Select-NetworkAdapter {
+    $adapters = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' -and $_.Virtual -eq $false }
+    
+    if (-Not $adapters) {
+        Write-Host "Error: No physical network adapters are currently up."
+        exit
+    }
+
+    # Display available adapters with a user-friendly numbered list
+    Write-Host "Available Network Adapters:"
+    $index = 1
+    $adapters | ForEach-Object { 
+        Write-Host "$index. $($_.Name) - $($_.InterfaceDescription)"
+        $index++
+    }
+
+    # Prompt user to choose an adapter by its number
+    $choice = Read-Host "Enter the number of the adapter you want to use"
+    
+    # Validate the selection
+    if ($choice -notmatch '^\d+$' -or [int]$choice -lt 1 -or [int]$choice -gt $adapters.Count) {
+        Write-Host "Invalid selection. Please run the script again."
+        exit
+    }
+
+    # Return the selected adapter
+    return $adapters[([int]$choice - 1)]
+}
+
 # Create NatSwitch if it doesn't exist
 $natSwitch = Get-VMSwitch | Where-Object {$_.Name -eq "NatSwitch"}
 if (-Not $natSwitch) {
@@ -16,22 +46,17 @@ if (-Not $natSwitch) {
     Write-Host "NatSwitch and NatNAT already exist."
 }
 
-# Get the first available physical network adapter
-$physicalAdapters = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' -and $_.Virtual -eq $false }
+# Prompt the user to select a network adapter
+$desiredAdapter = Select-NetworkAdapter
 
-if ($physicalAdapters.Count -eq 0) {
-    Write-Host "Error: No physical network adapters found."
-    exit
-}
-
-$externalAdapter = $physicalAdapters[0].Name
+$externalAdapter = $desiredAdapter.Name
 
 # Check if the external switch already exists
 $externalSwitch = Get-VMSwitch | Where-Object {$_.Name -eq "ExternalSwitch"}
 if (-Not $externalSwitch) {
-    # Step 4: Create an external switch named "ExternalSwitch" associated with the first available physical adapter
+    # Step 4: Create an external switch named "ExternalSwitch" associated with the selected adapter
     New-VMSwitch -SwitchName "ExternalSwitch" -NetAdapterName $externalAdapter
-    Write-Host "ExternalSwitch has been created and associated with '$externalAdapter'."
+    Write-Host "ExternalSwitch has been created and associated with '$externalAdapter' ($desiredAdapter.InterfaceDescription)."
 } else {
     Write-Host "ExternalSwitch already exists."
 }
