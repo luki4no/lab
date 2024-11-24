@@ -1,35 +1,39 @@
-# Check and remove NatNAT network without confirmation prompt, if it exists
-$nat = Get-NetNat | Where-Object { $_.Name -eq "NatNAT" }
-if ($nat) {
-    Remove-NetNat -Name "NatNAT" -Confirm:$false
-    Write-Host "NatNAT has been removed."
-} else {
-    Write-Host "NatNAT does not exist."
+# Define the switches and NAT network to be removed
+$switches = @("NatSwitch", "ExternalSwitch", "PrivateSwitch")
+$natName = "NatNAT"
+
+# Function to remove a NAT network if it exists
+function Remove-NatNetwork {
+    param ([string]$Name)
+    $nat = Get-NetNat | Where-Object { $_.Name -eq $Name }
+    if ($nat) {
+        Remove-NetNat -Name $Name -Confirm:$false
+        Write-Host "$Name has been removed."
+    } else {
+        Write-Host "$Name does not exist."
+    }
 }
 
-# Remove NatSwitch if it exists
-$natSwitch = Get-VMSwitch | Where-Object { $_.Name -eq "NatSwitch" }
-if ($natSwitch) {
-    Remove-VMSwitch -Name "NatSwitch" -Force
-    Write-Host "NatSwitch has been removed."
-} else {
-    Write-Host "NatSwitch does not exist."
+# Function to remove a virtual switch if it exists
+function Remove-VirtualSwitch {
+    param ([string]$SwitchName)
+    $switch = Get-VMSwitch | Where-Object { $_.Name -eq $SwitchName }
+    if ($switch) {
+        Remove-VMSwitch -Name $SwitchName -Force
+        Write-Host "$SwitchName has been removed."
+    } else {
+        Write-Host "$SwitchName does not exist."
+    }
 }
 
-# Remove ExternalSwitch if it exists
-$externalSwitch = Get-VMSwitch | Where-Object { $_.Name -eq "ExternalSwitch" }
-if ($externalSwitch) {
-    Remove-VMSwitch -Name "ExternalSwitch" -Force
-    Write-Host "ExternalSwitch has been removed."
-} else {
-    Write-Host "ExternalSwitch does not exist."
+# Remove the NAT network
+Write-Host "Removing NAT network..."
+Remove-NatNetwork -Name $natName
+
+# Remove each switch in the list
+Write-Host "Removing virtual switches..."
+foreach ($switch in $switches) {
+    Remove-VirtualSwitch -SwitchName $switch
 }
 
-# Remove PrivateSwitch if it exists
-$privateSwitch = Get-VMSwitch | Where-Object { $_.Name -eq "PrivateSwitch" }
-if ($privateSwitch) {
-    Remove-VMSwitch -Name "PrivateSwitch" -Force
-    Write-Host "PrivateSwitch has been removed."
-} else {
-    Write-Host "PrivateSwitch does not exist."
-}
+Write-Host "Cleanup complete."
