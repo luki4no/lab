@@ -85,6 +85,9 @@ Git für Windows installieren:
 ```powershell
 winget install --id Git.Git -e --source winget
 ```
+```powershell
+git --version
+```
 
 ## Git Repository herunterladen
 
