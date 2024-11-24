@@ -1,9 +1,10 @@
 # Function to prompt the user to select a network adapter
 function Select-NetworkAdapter {
-    $adapters = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' -and $_.Virtual -eq $false }
-    
+    # Include both "Up" and "Disconnected" physical adapters
+    $adapters = Get-NetAdapter | Where-Object { $_.Virtual -eq $false -and ($_.Status -eq 'Up' -or $_.Status -eq 'Disconnected') }
+
     if (-Not $adapters) {
-        Write-Host "Error: No physical network adapters are currently up."
+        Write-Host "Error: No physical network adapters are currently available."
         exit
     }
 
@@ -15,17 +16,15 @@ function Select-NetworkAdapter {
         $index++
     }
 
-    # Prompt user to choose an adapter by its number
-    $choice = Read-Host "Enter the number of the adapter you want to use"
-    
-    # Validate the selection
-    if ($choice -notmatch '^\d+$' -or [int]$choice -lt 1 -or [int]$choice -gt $adapters.Count) {
-        Write-Host "Invalid selection. Please run the script again."
-        exit
-    }
-
-    # Return the selected adapter
-    return $adapters[([int]$choice - 1)]
+    # Keep prompting until a valid selection is made
+    do {
+        $choice = Read-Host "Enter the number of the adapter you want to use"
+        if ($choice -match '^\d+$' -and [int]$choice -ge 1 -and [int]$choice -le $adapters.Count) {
+            return $adapters[([int]$choice - 1)]
+        } else {
+            Write-Host "Invalid selection. Please enter a number between 1 and $($adapters.Count)."
+        }
+    } while ($true)
 }
 
 # Create NatSwitch if it doesn't exist
@@ -69,3 +68,5 @@ if (-Not $privateSwitch) {
 } else {
     Write-Host "PrivateSwitch already exists."
 }
+
+Write-Host "Creation complete."
