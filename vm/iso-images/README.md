@@ -1,1 +1,1 @@
-In diesem Ordner werden wir die ISO Images herunterladen/ablegen.
+In diesem Ordner laden wir die ISO-Images herunter.
