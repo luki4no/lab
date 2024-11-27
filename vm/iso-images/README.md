@@ -1,1 +1,1 @@
-The purpose of the filder is to hold the downloaded ISO images.
+In diesem Ordner werden wir die ISO Images herunterladen/ablegen.
