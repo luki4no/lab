@@ -64,8 +64,8 @@ if ($selection -eq "6") {
         $isoFilePath = Join-Path $isoDir $iso.File
 
         if (-Not (Test-Path $isoFilePath)) {
-            Write-Host "Downloading $($iso.Name) ISO..."
-            Invoke-WebRequest -Uri $iso.Url -OutFile $isoFilePath
+            Write-Host "Downloading $($iso.Name) ISO using Start-BitsTransfer..."
+            Start-BitsTransfer -Source $iso.Url -Destination $isoFilePath
             Write-Host "$($iso.Name) ISO downloaded to $isoFilePath."
         } else {
             Write-Host "$($iso.Name) ISO already exists at $isoFilePath."
@@ -88,8 +88,8 @@ if ($selection -eq "6") {
 
     # Check if the ISO already exists, and if not, download it
     if (-Not (Test-Path $isoFilePath)) {
-        Write-Host "Downloading $($selectedIso.Name) ISO..."
-        Invoke-WebRequest -Uri $selectedIso.Url -OutFile $isoFilePath
+        Write-Host "Downloading $($selectedIso.Name) ISO using Start-BitsTransfer..."
+        Start-BitsTransfer -Source $selectedIso.Url -Destination $isoFilePath
         Write-Host "$($selectedIso.Name) ISO downloaded to $isoFilePath."
     } else {
         Write-Host "$($selectedIso.Name) ISO already exists at $isoFilePath."
