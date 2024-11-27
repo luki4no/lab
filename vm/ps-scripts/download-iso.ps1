@@ -52,7 +52,7 @@ $defaultDir = "C:\lab\vm\iso-images"
 
 if ($selection -eq "6") {
     # Prompt 2: Ask the user where they want to save all ISO images
-    $isoDir = Read-Host "Enter the directory where you want to save the ISOs (Default: $defaultDir)" 
+    $isoDir = Read-Host "Press Enter to save to '$defaultDir', or write down a different path"
     if (-not $isoDir) { $isoDir = $defaultDir }
     if (-Not (Test-Path $isoDir)) {
         Write-Host "Directory does not exist. Creating it..."
@@ -76,7 +76,7 @@ if ($selection -eq "6") {
     $selectedIso = $isoUrls[$selection - 1]
 
     # Prompt 2: Ask the user where they want to save the selected ISO
-    $isoDir = Read-Host "Enter the directory where you want to save the ISO (Default: $defaultDir)"
+    $isoDir = Read-Host "Press Enter to save to '$defaultDir', or write down a different path"
     if (-not $isoDir) { $isoDir = $defaultDir }
     if (-Not (Test-Path $isoDir)) {
         Write-Host "Directory does not exist. Creating it..."
