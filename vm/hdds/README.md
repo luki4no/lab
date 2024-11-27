@@ -1,1 +1,1 @@
-In diesem Ordner werden wir die virtuellen Festplatten der VMs ablegen.
+In diesem Ordner legen wir die virtuellen Festplatten der VMs ab.
