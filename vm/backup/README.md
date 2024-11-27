@@ -1,1 +1,1 @@
-In diesem Ordner werden wir die VMs absichern.
+In diesem Ordner exportieren wir die Hyper-V VMs Backups.
