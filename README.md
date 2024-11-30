@@ -13,7 +13,7 @@ Diese Dokumentation erklärt Schritt für Schritt, wie man eine auf Linux basier
 | VM Name       | CPU | RAM   | HDD       | Memory Type |
 |---------------|-----|-------|-----------|-------------|
 | 0. pfsense    | 1   | 2 GB  | 60 GB     | Dynamisch   |
-| 1. centos     | 2   | 4 GB  | 60 GB     | Dynamisch   |
+| 1. centos     | 2   | 6 GB  | 60 GB     | Dynamisch   |
 | 2. ubuntu     | 2   | 4 GB  | 60 GB     | Dynamisch   |
 | 3. fedora     | 1   | 2 GB  | 60 GB     | Dynamisch   |
 | 4. debian     | 1   | 2 GB  | 60 GB     | Dynamisch   |
