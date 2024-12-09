@@ -85,9 +85,3 @@
         name: lucian
         groups: docker
         append: yes
-
-    # Refresh group membership
-    - name: Refresh Docker group membership (optional)
-      ansible.builtin.shell: newgrp docker || true
-      args:
-        warn: false
