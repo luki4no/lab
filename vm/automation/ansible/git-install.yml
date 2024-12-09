@@ -1,0 +1,17 @@
+---
+- name: Install Git on target hosts
+  hosts: clients
+  become: true
+  tasks:
+    - name: Install Git on Red Hat-based systems
+      ansible.builtin.yum:
+        name: git
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Install Git on Debian-based systems
+      ansible.builtin.apt:
+        name: git
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Debian"
